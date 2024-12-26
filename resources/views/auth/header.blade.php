@@ -1,21 +1,31 @@
-<head>
+<div class="header">
+    <!-- Horizontal line -->
+    <nav class="main-header navbar navbar-expand navbar-dark navbar-gray">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+            </li>
+    
+        </ul>
+    
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Messages Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-user"></i>&nbsp;
+                    RAJVIRSINGH
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <a href="logout.php" class="dropdown-item">
+                        <i class="fa fa-sign-out-alt"></i>
+                        LogOut
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
     <hr class="horizontal-line">
-    </div>
-</head>
-<body>
-    <div class="header">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">Welcome, <strong>RAJVIRSINGH</strong></span>
-        </div>
-    </div>
 
-    <!-- Add a new div for the logout button -->
-    <div class="logout-btn-container" style="display: flex; justify-content: flex-start; padding: 10px;">
-        <form action="{{ route('logout') }}" method="POST" class="ml-3">
-            @csrf
-            <button type="submit" class="btn btn-danger">Logout</button>
-        </form>
-    </div>
-</body>
-
- 
+    

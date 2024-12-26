@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,98 +14,150 @@
             display: flex;
             min-height: 100vh;
             flex-direction: column;
-        }
-        .sidebar {
-            height: 100vh;
-            background-color: #343a40;
-            color: #fff;
-            padding: 0px;
-            position: fixed;
-            width: 250px;
+            margin: 0;
+            padding: 0;
         }
         html, body {
             height: 100%;
             overflow: hidden;  /* Prevent scrolling */
-            margin: 0;
-            padding: 0;
         }
 
-        .container-fluid {
-            height: 100%;
-            overflow-y: auto; /* Allow vertical scrolling within the container if needed */
+        .sidebar {
+            height: 120vh;
+            background-color: #343a40;
+            color: #fff;
+            padding: 0;
+            position: fixed;
+            width: 250px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h4 {
             font-size: 18px;
             margin-bottom: 30px;
+            padding: 10px 15px;
         }
+
         .sidebar .nav-item {
             margin-bottom: 15px;
         }
+
         .sidebar a {
             color: #fff;
             display: block;
             text-decoration: none;
             font-size: 16px;
+            padding: 10px 15px;
         }
+
         .sidebar a:hover {
             color: #17a2b8;
+            background-color: #495057;
         }
+
         .sidebar a.active {
             font-weight: bold;
             color: #17a2b8;
+            background-color: #495057;
         }
+
         .content {
             margin-left: 250px;
             padding: 20px;
             width: 100%;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
+
+        .navbar-brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
         .horizontal-line {
-            width:100%;
+            width: 100%;
             border: 0;
-            border-top: 55px solid #6C757D; /* The color and thickness of the line */
-            margin: 0; /* Removes all margins */
-            padding: 0; /* Removes all padding */
-            margin-left: auto; /* Pushes the line to the right */
-}
+            border-top: 2px solid #6C757D; 
+            margin: 0; 
+            padding: 0;
+        }
+
+        .header {
+            background-color: #343a40;
+        }
+
+        .header .navbar {
+            padding: 10px 15px;
+        }
+
+        .header .navbar-nav {
+            margin-left: 250px;
+        }
+
+        .header .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .header .navbar-nav .nav-link:hover {
+            color: #17a2b8;
+        }
+
+        .sidebar-header {
+            background-color: #333;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        .sidebar-header h6 {
+            margin: 0;
+            font-size: 18px;
+        }
 
     </style>
 
 </head>
 <body>
     @include('auth.header')
-   
+
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-header" style="background-color: gray; padding: 10px; display: flex; align-items: center;">
-            <img src="/images/dnss.png" alt="DNS Logo" style="width: 40px; height: 35px; margin-right: 10px;">
-            <h6 style="margin: 0; font-size: 18px; color: rgb(10, 9, 9);">FREE-DNS Manager</h6>
+        <div class="sidebar-header">
+            <img src="/images/dnss.png" alt="DNS Logo">
+            <h6>FREE-DNS Manager</h6>
         </div>
         
-    <ul class="nav flex-column container mt-4">
-        <li class="nav-item">
-            <a class="nav-link active" href="index.php">
-                <i class="fa fa-home"></i>&nbsp;&nbsp; Main
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('zones.index') }}">
-                <i class="fa fa-table"></i>&nbsp;&nbsp; Zones
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="chpass.php">
-                <i class="fa fa-key"></i>&nbsp;&nbsp; Change Password
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-danger" href="commit.php">
-                <i class="fa fa-code-branch"></i>&nbsp;&nbsp; Commit Changes
-            </a>
-        </li>
-    </ul>
-</div>
-
+        <ul class="nav flex-column container mt-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="dashboard">
+                    <i class="fa fa-home"></i>&nbsp;&nbsp; Main
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('zones.index') }}">
+                    <i class="fa fa-table"></i>&nbsp;&nbsp; Zones
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="chpass.php">
+                    <i class="fa fa-key"></i>&nbsp;&nbsp; Change Password
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-danger" href="commit.php">
+                    <i class="fa fa-code-branch"></i>&nbsp;&nbsp; Commit Changes
+                </a>
+            </li>
+        </ul>
+    </div>
 
     <!-- Main Content -->
     <div class="content">
@@ -124,7 +175,6 @@
             @yield('content')
         </main>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
