@@ -22,7 +22,7 @@
         }
         html, body {
             height: 100%;
-            overflow: hidden;  /* Prevent scrolling */
+            overflow: auto;  /* Prevent scrolling */
         }
 
         .sidebar {
@@ -170,15 +170,38 @@
 
 .content {
     transition: margin-left 0.3s ease;
+    width: calc(100% - 250px); 
 }
 
 .sidebar.collapsed + .content {
     margin-left: 70px; /* Adjust to match collapsed width */
+    width: calc(100% - 70px);
 }
 .sidebar.right {
     left: auto;
     right: 0;
     transition: right 0.3s ease, left 0.3s ease; /* Smooth transition */
+}
+
+    </style>
+    <style>
+        .custom-box {
+            border-top: 5px solid blue; /* Blue top border */
+            background: #fff; /* Optional: Set a background color */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+            border-radius: 8px; /* Optional: Round the corners */
+            color: #000; /* Optional: Adjust text color */
+            padding: 15px; /* Optional: Adjust padding */
+            margin-bottom: 30px; /* Optional: Add spacing between sections */
+        }
+        .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.info-box {
+    flex: 1 1 100%; /* Make each box take up 33% of the row */
+    max-width: 100%; /* Ensure it doesn't exceed this width */
 }
 
     </style>
