@@ -16,10 +16,14 @@
                     RAJVIRSINGH
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a href="login.php" class="dropdown-item">
-                        <i class="fa fa-sign-out-alt"></i> LogOut
-                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item">
+                            <i class="fa fa-sign-out-alt"></i> LogOut
+                        </button>
+                    </form>
                 </div>
+                
             </li>
         </ul>
     </nav>

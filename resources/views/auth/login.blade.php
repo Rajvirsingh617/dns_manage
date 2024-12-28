@@ -52,6 +52,7 @@
     </style>
 </head>
 <body>
+    
     <div class="login-card">
         <h2 style="text-align: center; margin-bottom: 20px; background-color: #007bff; color: white; padding: 10px; border-radius: 8px; border: 2px solid #0056b3;">
             Login
@@ -61,6 +62,11 @@
             <img src="/images/dnss.png" alt="Logo" style="width: 80px; height: auto;">
         </div>
         <p>Instructions for private nameservers setup:</p>
+        @if(session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
 
         <!-- Display validation errors if any -->
         @if ($errors->any())

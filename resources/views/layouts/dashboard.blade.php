@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<div class="col-sm-10">
+<div class="col-sm-15">
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="index.php">Main</a></li>
         <li class="breadcrumb-item">Main</li>

@@ -143,9 +143,9 @@
             color: #fff;
             margin-bottom: 20px;
         }
-        .bg-gradient-success { background: linear-gradient(to right, #28a745, #218838); }
-        .bg-gradient-warning { background: linear-gradient(to right, #ffc107, #e0a800); }
-        .bg-gradient-info { background: linear-gradient(to right, #17a2b8, #117a8b); }
+        .bg-gradient-success { background: linear-gradient(to right, #36AD51, #36AD51); }
+        .bg-gradient-warning { background: linear-gradient(to right, #FFC414, #FFC414); }
+        .bg-gradient-info { background: linear-gradient(to right, #2CABBF, #2CABBF); }
         .info-box-icon {
             font-size: 2rem;
             margin-right: 15px;
@@ -154,7 +154,8 @@
             flex: 1;
         }
         .sidebar.collapsed {
-    width: 60px; /* Adjust to your preferred width */
+    width: 60px; 
+    /* Adjust to your preferred width */
     transition: width 0.3s ease, left 0.3s ease;
     overflow: hidden; /* Hide content when collapsed */
 }
