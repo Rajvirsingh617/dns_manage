@@ -1,58 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="col-sm-10">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="index.php">Main</a></li>
+        <li class="breadcrumb-item">Main</li>
+    </ol>
+</div>
+<div class="col-sm-6">
+    <h1 class="m-0 text-dark" style="text-align: left !important; margin-bottom: 20px;">Main</h1>
+</div>
 
 
-    
-    <!-- Row 1: Cards -->
-    <div class="container-fluid">
-        <!-- Row 1: Cards -->
-        <div class="container mt-2">
-            <div class="row">
-                <!-- Box 1: DNS Services Status -->
-                <div class="col-md-4">
-                    <div class="card text-white bg-success mb-4" style="width: 100%;">
-                        <div class="card-body">
-                            <h5 class="card-title">DNS Services Status</h5>
-                            <p class="card-text">Started</p>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Box 2: Zones Maintained -->
-                <div class="col-md-4">
-                    <div class="card text-white bg-warning mb-3" style="width: 100%;">
-                        <div class="card-body">
-                            <h5 class="card-title">You Maintain</h5>
-                            <p class="card-text">2 Zones</p>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Box 3: Buy New Domains -->
-                <div class="col-md-4">
-                    <div class="card text-white bg-info mb-3" style="width: 100%;">
-                        <div class="card-body">
-                            <h5 class="card-title">Buy</h5>
-                            <p class="card-text">New Domains</p>
-                        </div>
-                    </div>
-                </div>
+<div class="custom-box" style="margin-bottom: 50px;">
+    <div class="col-sm-15">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 style="text-align: left !important; margin-top: 20px;">Welcome, <b>RAJVIRSINGH.</b></h3>
             </div>
         </div>
     </div>
-    
-    <!-- Row 2: Warning -->
+
     <div class="row">
-        <div class="col-md-12">
-            <div class="alert alert-warning">
-                <strong>WARNING:</strong> The following zones contain bad or uncommitted records:
-                <ul>
-                    <li>rajvirsingh.com</li>
-                    <li>raj.com</li>
-                </ul>
+        <!-- First Info Box -->
+        <div class="col-md-4 col-sm-6">
+            <div class="info-box bg-gradient-success">
+                <span class="info-box-icon"><i class="fa fa-check-circle"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-number">DNS Services Status</span>
+                    <span class="info-box-text">Started</span>
+                </div>
+            </div>
+        </div>
+        <!-- Second Info Box -->
+        <div class="col-md-4 col-sm-6">
+            <div class="info-box bg-gradient-warning">
+                <span class="info-box-icon"><i class="fas fa-table"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-number">You Maintain</span>
+                    <span class="info-box-text">2 Zones</span>
+                </div>
+            </div>
+        </div>
+        <!-- Third Info Box -->
+        <div class="col-md-4 col-sm-6">
+            <div class="info-box bg-gradient-info">
+                <span class="info-box-icon">
+                    <a href="http://secure.studio4host.com/user/domainchecker.php" target="_blank" style="color:#fff">
+                        <i class="fa fa-cart-plus"></i>
+                    </a>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-number">
+                        <a href="http://secure.studio4host.com/user/domainchecker.php" target="_blank" style="color:#fff">
+                            Buy
+                        </a>
+                    </span>
+                    <span class="info-box-text">New Domains</span>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .custom-box {
+        border-top: 5px solid blue; /* Blue top border */
+        background: #fff; /* Optional: Set a background color */
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+        border-radius: 8px; /* Optional: Round the corners */
+        color: #000; /* Optional: Adjust text color */
+        padding: 15px; /* Optional: Adjust padding */
+        margin-bottom: 30px; /* Optional: Add spacing between sections */
+    }
+</style>
+
+
 @endsection

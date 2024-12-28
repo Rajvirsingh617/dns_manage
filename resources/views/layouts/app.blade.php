@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             display: flex;
@@ -23,14 +26,17 @@
         }
 
         .sidebar {
-            height: 120vh;
-            background-color: #343a40;
-            color: #fff;
-            padding: 0;
-            position: fixed;
-            width: 250px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        }
+    height: 100vh; /* Set sidebar to full height */
+    background-color: #343a40;
+    color: #fff;
+    padding: 0;
+    position: fixed;
+    width: 250px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    top: 0; /* Align with the header */
+    left: 0;
+    transition: left 0.3s ease;
+}
 
         .sidebar h4 {
             font-size: 18px;
@@ -68,6 +74,7 @@
             background-color: #f8f9fa;
             min-height: 100vh;
             box-sizing: border-box;
+            transition: margin-left 0.3s ease;
         }
 
         .navbar-brand {
@@ -89,10 +96,11 @@
 
         .header .navbar {
             padding: 10px 15px;
+            margin-left: 250px; /* Offset for sidebar */
+            z-index: 1030; /* Ensure it appears above the sidebar */
         }
-
         .header .navbar-nav {
-            margin-left: 250px;
+            margin-left: 0;
         }
 
         .header .navbar-nav .nav-link {
@@ -104,12 +112,15 @@
         }
 
         .sidebar-header {
-            background-color: #333;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            color: #fff;
-        }
+                background-color: #333;
+                padding: 13px 15px; /* Adjust padding for better alignment */
+                display: flex;
+                align-items: center;
+                justify-content: flex-start; /* Align items to the left */
+                position: sticky; /* Keep it fixed when scrolling */
+                top: 0;
+                z-index: 1020;
+            }
 
         .sidebar-header img {
             width: 40px;
@@ -121,6 +132,54 @@
             margin: 0;
             font-size: 18px;
         }
+
+    </style>
+    <style>
+        .info-box {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .bg-gradient-success { background: linear-gradient(to right, #28a745, #218838); }
+        .bg-gradient-warning { background: linear-gradient(to right, #ffc107, #e0a800); }
+        .bg-gradient-info { background: linear-gradient(to right, #17a2b8, #117a8b); }
+        .info-box-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+        .info-box-content {
+            flex: 1;
+        }
+        .sidebar.collapsed {
+    width: 60px; /* Adjust to your preferred width */
+    transition: width 0.3s ease, left 0.3s ease;
+    overflow: hidden; /* Hide content when collapsed */
+}
+
+.sidebar.collapsed .nav-link span {
+    display: none; /* Hide text labels */
+}
+
+.sidebar.collapsed .nav-link i {
+    font-size: 20px; /* Adjust icon size if needed */
+    margin: 0 auto; /* Center the icons if needed */
+}
+
+.content {
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed + .content {
+    margin-left: 70px; /* Adjust to match collapsed width */
+}
+.sidebar.right {
+    left: auto;
+    right: 0;
+    transition: right 0.3s ease, left 0.3s ease; /* Smooth transition */
+}
 
     </style>
 
@@ -137,25 +196,30 @@
         
         <ul class="nav flex-column container mt-4">
             <li class="nav-item">
-                <a class="nav-link active" href="dashboard">
-                    <i class="fa fa-home"></i>&nbsp;&nbsp; Main
+                <a class="nav-link" href="dashboard">
+                    <i class="fa fa-home"></i>
+                    <span>Main</span> <!-- This is the text that will be hidden -->
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('zones.index') }}">
-                    <i class="fa fa-table"></i>&nbsp;&nbsp; Zones
+                    <i class="fa fa-table"></i>
+                    <span>Zones</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="chpass.php">
-                    <i class="fa fa-key"></i>&nbsp;&nbsp; Change Password
+                    <i class="fa fa-key"></i>
+                    <span>Change Password</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-danger" href="commit.php">
-                    <i class="fa fa-code-branch"></i>&nbsp;&nbsp; Commit Changes
+                    <i class="fa fa-code-branch"></i>
+                    <span>Commit Changes</span>
                 </a>
             </li>
+            
         </ul>
     </div>
 
@@ -163,11 +227,6 @@
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Welcome, <strong>RAJVIRSINGH</strong></span>
-                <form action="{{ route('logout') }}" method="POST" class="ml-3">
-                    @csrf
-                    <button type="submit" class="btn btn-danger">Logout</button>
-                </form>
             </div>
         </nav>
 
@@ -179,5 +238,22 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleButton = document.getElementById('sidebarToggle');
+    
+            toggleButton.addEventListener('click', function () {
+                // Toggle 'collapsed' class for sidebar collapse behavior
+                sidebar.classList.toggle('collapsed');
+                
+                // Toggle 'right' class to move sidebar to the right side
+                sidebar.classList.toggle('left');
+            });
+        });
+    </script>
+    
+    
+    
 </body>
 </html>
