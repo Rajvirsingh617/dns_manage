@@ -25,9 +25,9 @@ class AuthController extends Controller
 
         // Attempt to log in the user with the given username and password
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
-            // Redirect to a protected route (e.g., dashboard) after successful login
-            return redirect()->intended('/dashboard')->with('success', 'Login successful!');
+            return redirect()->intended('/dashboard')->with('popup', 'Login successful!');
         }
+        
 
         // If authentication fails, redirect back with an error message
         return back()->withErrors(['login' => 'Invalid username or password.'])->withInput();
