@@ -52,7 +52,9 @@
     </style>
 </head>
 <body>
-    
+   
+
+@section('content')
     <div class="login-card">
         <h2 style="text-align: center; margin-bottom: 20px; background-color: #007bff; color: white; padding: 10px; border-radius: 8px; border: 2px solid #0056b3;">
             Login
@@ -97,8 +99,10 @@
         </form>
         <div class="mt-3 text-center">
             <a href="/forgot-password">Forgot Password?</a> | 
-            <a href="/register">Create an account</a>
+            <a href="/">Create an account</a>
         </div>
     </div>
+    @include('auth.footer')
 </body>
+
 </html>

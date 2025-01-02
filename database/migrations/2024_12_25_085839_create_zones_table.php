@@ -15,10 +15,19 @@ class CreateZonesTable extends Migration
     {
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('serial');
-            $table->string('user');
-            $table->timestamps();
+        $table->string('name');
+        $table->integer('refresh');
+        $table->integer('retry');
+        $table->integer('expire');
+        $table->integer('ttl');
+        $table->string('pri_dns');
+        $table->string('sec_dns');
+        $table->string('www')->nullable();
+        $table->string('mail')->nullable();
+        $table->string('ftp')->nullable();
+        $table->unsignedBigInteger('owner')->nullable();
+
+        $table->timestamps();
         });
     }
 

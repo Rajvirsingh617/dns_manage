@@ -13,7 +13,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-user"></i>&nbsp;
-                    RAJVIRSINGH
+                    {{ Auth::user()->username }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <form method="POST" action="{{ route('logout') }}">

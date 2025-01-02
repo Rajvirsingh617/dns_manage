@@ -10,6 +10,12 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function zones()
+{
+    return $this->hasMany(Zone::class, 'owner');
+}
+
+
     // Specify the table name
     protected $table = 'dns_users';
 

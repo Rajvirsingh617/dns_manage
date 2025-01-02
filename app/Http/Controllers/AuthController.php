@@ -16,30 +16,29 @@ class AuthController extends Controller
 
     // Handle Login Request
     public function login(Request $request)
-    {
-        // Validate the login form input
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
+{
+    // Validate the login form input
+    $request->validate([
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ]);
 
-        // Attempt to log in the user with the given username and password
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
-            return redirect()->intended('/dashboard')->with('popup', 'Login successful!');
-        }
-        
-
-        // If authentication fails, redirect back with an error message
-        return back()->withErrors(['login' => 'Invalid username or password.'])->withInput();
+    // Attempt to log in the user with the given username and password
+    if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
+        return redirect()->intended('/dashboard')->with('popup', 'Login successful!');
     }
 
+    // If authentication fails, redirect back with an error message
+    return back()->withErrors(['login' => 'Invalid username or password.'])->withInput();
+}
     // Logout User
     public function logout()
-    {
-        Auth::logout(); // Log the user out
-       return redirect('/login')->with('message', 'You have been logged out.');
+{
+    Auth::logout();
+    session()->forget('username');
+    return redirect('/login');
+}
 
-    }
 }
 
 

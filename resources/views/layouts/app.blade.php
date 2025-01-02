@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             display: flex;
@@ -154,59 +151,145 @@
             flex: 1;
         }
         .sidebar.collapsed {
-    width: 60px; 
-    /* Adjust to your preferred width */
-    transition: width 0.3s ease, left 0.3s ease;
-    overflow: hidden; /* Hide content when collapsed */
-}
-
-.sidebar.collapsed .nav-link span {
-    display: none; /* Hide text labels */
-}
-
-.sidebar.collapsed .nav-link i {
-    font-size: 20px; /* Adjust icon size if needed */
-    margin: 0 auto; /* Center the icons if needed */
-}
-
-.content {
-    transition: margin-left 0.3s ease;
-    width: calc(100% - 250px); 
-}
-
-.sidebar.collapsed + .content {
-    margin-left: 70px; /* Adjust to match collapsed width */
-    width: calc(100% - 70px);
-}
-.sidebar.right {
-    left: auto;
-    right: 0;
-    transition: right 0.3s ease, left 0.3s ease; /* Smooth transition */
-}
-
-    </style>
-    <style>
-        .custom-box {
-            border-top: 5px solid blue; /* Blue top border */
-            background: #fff; /* Optional: Set a background color */
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
-            border-radius: 8px; /* Optional: Round the corners */
-            color: #000; /* Optional: Adjust text color */
-            padding: 15px; /* Optional: Adjust padding */
-            margin-bottom: 30px; /* Optional: Add spacing between sections */
+            width: 60px; 
+            htr/* Adjust to your preferred width */
+            transition: width 0.3s ease, left 0.3s ease;
+            overflow: hidden; /* Hide content when collapsed */
         }
-        .row {
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.info-box {
-    flex: 1 1 100%; /* Make each box take up 33% of the row */
-    max-width: 100%; /* Ensure it doesn't exceed this width */
-}
+        .sidebar.collapsed .nav-link span {
+            display: none; /* Hide text labels */
+        }
 
+        .sidebar.collapsed .nav-link i {
+            font-size: 20px; /* Adjust icon size if needed */
+            margin: 0 auto; /* Center the icons if needed */
+        }
+
+        .content {
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 250px); 
+        }
+
+        .sidebar.collapsed + .content {
+            margin-left: 70px; /* Adjust to match collapsed width */
+            width: calc(100% - 70px);
+        }
+        .sidebar.right {
+            left: auto;
+            right: 0;
+            transition: right 0.3s ease, left 0.3s ease; /* Smooth transition */
+        }
+
+            </style>
+            <style>
+                .custom-box {
+                    border-top: 5px solid blue; /* Blue top border */
+                    background: #fff; /* Optional: Set a background color */
+                    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+                    border-radius: 8px; /* Optional: Round the corners */
+                    color: #000; /* Optional: Adjust text color */
+                    padding: 15px; /* Optional: Adjust padding */
+                    margin-bottom: 30px; /* Optional: Add spacing between sections */
+                }
+                .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .info-box {
+            flex: 1 1 100%; /* Make each box take up 33% of the row */
+            max-width: 100%; /* Ensure it doesn't exceed this width */
+        }
+
+            </style>
+        <style>
+            .footer {
+            border-top: 2px solid #fff; /* White border for design */
+            background-color: #343a40; /* Dark background */
+            color: #fff; /* White text */
+            text-align: center; /* Center text */
+            padding: 10px 0; /* Vertical spacing */
+            position: relative; /* Default positioning */
+            width: 100%; /* Full width */
+        }
+        .footer {
+            flex-shrink: 0; /* Footer stays at the bottom */
+        }
+            </style>
+            <style>
+                table {
+                    table-layout: auto; /* Allows column width to adjust based on content */
+                    width: 100%; /* Ensures the table spans the container */
+                }
+            
+            
+    
+        .custom-box {
+            border: 1px solid #ddd;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .text-right {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+    
+        .btn-flat {
+            margin: 0 5px;
+        }
+    
+        .table {
+            margin-top: 20px;
+            background-color: #fff;
+            border-collapse: collapse;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    
+        .badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        .btn-flat {
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        padding: 10px 20px;
+        margin: 0 5px;
+        text-transform: uppercase;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .btn-flat:hover {
+        background-color: #0056b3;
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    .gray-background li {
+        background-color: #6E777F; /* Light gray */
+        padding: 1px; /* Add padding for spacing */
+        margin-bottom: 5px; /* Add spacing between list items */
+        border-radius: 5px; /* Optional: Rounded corners */
+        list-style-type: none; /* Optional: Remove bullet points */
+        color: #fff; /* Text color */
+        width: 20%;
+        font-weight: bold;
+        
+    }
+    
     </style>
-
 </head>
 <body>
     @include('auth.header')
@@ -232,13 +315,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="chpass.php">
+                <a class="nav-link" href="{{ route('password.change') }}">
                     <i class="fa fa-key"></i>
                     <span>Change Password</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-danger" href="commit.php">
+                <a class="nav-link text-danger" href="{{ route('commit.changes') }}">
                     <i class="fa fa-code-branch"></i>
                     <span>Commit Changes</span>
                 </a>
@@ -262,6 +345,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.querySelector('.sidebar');
@@ -284,9 +368,9 @@
         @endif
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>  
 </body>
+@include('auth.footer')
 </html>
