@@ -42,70 +42,70 @@
                             @csrf
                             
                             <div class="form-group row" style="margin-top: 2em;">
-                                <label for="name" class="col-sm-2 control-label">Zone/Domain</label>
+                                <label for="name" class="col-sm-2 control-label"><strong>Zone/Domain</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Domain/Zone Name" value="{{ old('name') }}">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="refresh" class="col-sm-2 control-label">Refresh</label>
+                                <label for="refresh" class="col-sm-2 control-label"><strong>Refresh</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('refresh', '28800') }}" id="refresh" name="refresh" placeholder="Refresh">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="retry" class="col-sm-2 control-label">Retry</label>
+                                <label for="retry" class="col-sm-2 control-label"><strong>Retry</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('retry', '7200') }}" id="retry" name="retry" placeholder="Retry">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="expire" class="col-sm-2 control-label">Expire</label>
+                                <label for="expire" class="col-sm-2 control-label"><strong>Expire</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('expire', '1209600') }}" id="expire" name="expire" placeholder="Expire">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="ttl" class="col-sm-2 control-label">Time To Live</label>
+                                <label for="ttl" class="col-sm-2 control-label"><strong>Time To Live</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('ttl', '86400') }}" id="ttl" name="ttl" placeholder="Time To Live">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="pri_dns" class="col-sm-2 control-label">Primary NS</label>
+                                <label for="pri_dns" class="col-sm-2 control-label"><strong>Primary NS</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('pri_dns', 'ns1.centos-webpanel.com') }}" id="pri_dns" name="pri_dns" placeholder="Primary NS">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="sec_dns" class="col-sm-2 control-label">Secondary NS</label>
+                                <label for="sec_dns" class="col-sm-2 control-label"><strong>Secondary NS</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('sec_dns', 'ns2.centos-webpanel.com') }}" id="sec_dns" name="sec_dns" placeholder="Secondary NS">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="www" class="col-sm-2 control-label">Web Server IP</label>
+                                <label for="www" class="col-sm-2 control-label"><strong>Web Server IP</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('www') }}" id="www" name="www" placeholder="Web Server IP">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="mail" class="col-sm-2 control-label">Mail Server IP</label>
+                                <label for="mail" class="col-sm-2 control-label"><strong>Mail Server IP</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('mail') }}" id="mail" name="mail" placeholder="Mail Server IP">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="ftp" class="col-sm-2 control-label">FTP Server IP</label>
+                                <label for="ftp" class="col-sm-2 control-label"><strong>FTP Server IP</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" value="{{ old('ftp') }}" id="ftp" name="ftp" placeholder="FTP Server IP">
                                 </div>

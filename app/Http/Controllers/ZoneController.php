@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class ZoneController extends Controller
 {
     //
-    public function index()
+   /*  public function index()
     {
        
         $zoneCount = Zone::where('owner', Auth::id())->count();
@@ -18,8 +18,20 @@ class ZoneController extends Controller
     
        
         return view('zones.index', compact('zones', 'zoneCount'));
+    } */
+    public function index()
+{
+    if (auth()->user()->role === 'admin') {
+        // सभी ज़ोन और उनके मालिक दिखाएं
+        $zones = Zone::with('user')->get();
+    } else {
+        // केवल लॉगिन उपयोगकर्ता से जुड़े ज़ोन दिखाएं
+        $zones = Zone::where('owner', auth()->id())->get();
     }
-    
+
+    return view('zones.index', compact('zones'));
+}
+
 
 public function show($id)
 {

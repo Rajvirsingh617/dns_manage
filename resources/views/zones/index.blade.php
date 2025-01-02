@@ -87,10 +87,9 @@
                             <span style="background-color: rgb(0, 132, 255); color: white; padding: 2px 4px; border-radius: 3px;">{{ $zone->name }}</span>
                         </td>
                         <td>{{ $zone->id }}</td>
-                        <td>{{ Auth::user()->username }}</td> 
+                        <td>{{ $zone->user->username ?? 'N/A' }}</td> <!-- ज़ोन के मालिक का नाम -->
                         <td>
                             <span class="right badge badge-success"><i class="fa fa-check-circle"></i></span>
-                            
                         </td>
                         <td>
                             <span class="right badge badge-secondary"><i class="fa fa-times"></i></span>
@@ -101,11 +100,11 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
                             </form>
-                            
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
+                
             </table>
             <script>
                 document.getElementById('searchInput').addEventListener('keyup', function () {

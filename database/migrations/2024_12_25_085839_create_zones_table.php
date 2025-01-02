@@ -15,7 +15,7 @@ class CreateZonesTable extends Migration
     {
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
-        $table->string('name');
+        $table->string('name')->unique();
         $table->integer('refresh');
         $table->integer('retry');
         $table->integer('expire');

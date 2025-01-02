@@ -38,6 +38,10 @@ class AuthController extends Controller
     session()->forget('username');
     return redirect('/login');
 }
+public function getRoleAttribute()
+{
+    return $this->attributes['role']; // Assuming the 'role' column exists in the database
+}
 
 }
 
