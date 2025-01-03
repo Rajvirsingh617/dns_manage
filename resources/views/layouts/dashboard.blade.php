@@ -36,9 +36,12 @@
     <div class="col-sm-15">
         <div class="row">
             <div class="col-md-6">
-                <h3 style="text-align: left !important; margin-top:20px;">
-                    Welcome, <b>{{ Auth::user()->username }}</b>
-                </h3>
+                @if(Auth::check())
+                    <h3>Welcome, <b>{{ Auth::user()->username }}</b></h3>
+                @else
+                    <h3>Welcome, Guest</h3>
+                @endif
+
             </div>
             
             

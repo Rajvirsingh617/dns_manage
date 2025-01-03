@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <div class="col-sm-15">
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="{{ route('zones.index') }}">Main</a>

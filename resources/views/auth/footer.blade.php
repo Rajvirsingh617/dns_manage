@@ -1,4 +1,4 @@
-{{-- <footer class="main-footer text-center">
+{{--  <footer class="main-footer text-center">
     <strong>© Dns Manager </strong>
-</footer> --}}
-  
+</footer> 
+   --}}
