@@ -33,4 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('zones', ZoneController::class)->except(['index', 'show']);
     Route::get('/zones', [ZoneController::class, 'index'])->name('zones.index');
     Route::get('/zones/{id}', [ZoneController::class, 'show'])->name('zones.show');
+    Route::get('/zones/{id}/edit', [ZoneController::class, 'edit'])->name('zones.editzone');
+
 });

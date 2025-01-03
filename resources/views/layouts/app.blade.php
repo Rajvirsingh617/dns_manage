@@ -284,7 +284,7 @@
         border-radius: 5px; /* Optional: Rounded corners */
         list-style-type: none; /* Optional: Remove bullet points */
         color: #fff; /* Text color */
-        width: 20%;
+        width: 210px;
         font-weight: bold;
         
     }
@@ -299,6 +299,7 @@
         <div class="sidebar-header">
             <img src="/images/dnss.png" alt="DNS Logo">
             <h6>FREE-DNS Manager</h6>
+            
         </div>
         
         <ul class="nav flex-column container mt-4">

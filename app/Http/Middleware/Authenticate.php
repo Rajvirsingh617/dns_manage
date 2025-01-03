@@ -18,4 +18,9 @@ class Authenticate extends Middleware
             return route('login'); // Redirects to the login page if unauthenticated
         }
     }
+    public function __construct()
+{
+    $this->middleware('auth');  // Only authenticated users can access this
+}
+
 }

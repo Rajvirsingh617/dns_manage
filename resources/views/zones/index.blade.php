@@ -16,7 +16,7 @@
     <div class="col-sm-15">
         <div class="row">
             <div class="col-md-12 text-right">
-                <a class="btn btn-primary btn-flat" href="./newzone.php">
+                <a class="btn btn-primary btn-flat" href="{{ route('zones.create') }}">
                     <i class="fa fa-plus-circle"></i> Create a new zone
                 </a>
                 |
@@ -69,7 +69,7 @@
         <table class="table"id="dataTable">
             <thead>
                 <tr class="text-white bg-primary">
-                    <th >Name</th>
+                    <th>Name</th>
                     <th>Serial</th>
                     <th>User </span></th>
                     <th>Changed</th>
@@ -83,8 +83,8 @@
                     @foreach($zones as $zone)
                     <tr>
                         <td>
-                            <span style="background-color: rgb(0, 132, 255); color: white; padding: 2px 4px; border-radius: 3px;">{{ $zone->name }}</span>
-                        </td>
+                            <a href="{{ route('zones.editzone', ['id' => $zone->id]) }}"><span style="background-color: rgb(0, 132, 255); color: white; padding: 2px 4px; border-radius: 3px;">{{ $zone->name }}</span>
+                        </td></a>
                         <td>{{ $zone->id }}</td>
                         <td>{{ $zone->user->username ?? 'N/A' }}</td> <!-- ज़ोन के मालिक का नाम -->
                         <td>

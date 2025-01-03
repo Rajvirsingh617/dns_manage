@@ -64,12 +64,6 @@
             <img src="/images/dnss.png" alt="Logo" style="width: 80px; height: auto;">
         </div>
         <p>Instructions for private nameservers setup:</p>
-        @if(session('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
-
         <!-- Display validation errors if any -->
         @if ($errors->any())
             <div class="alert alert-danger">

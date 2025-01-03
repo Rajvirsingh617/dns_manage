@@ -80,6 +80,12 @@ public function store(Request $request)
         // Redirect back with a success message
         return redirect()->route('zones.index')->with('success', 'Zone deleted successfully.');
     }
+    public function edit($id)
+    {
+        // Find the zone by ID and pass it to the edit view
+        $zone = Zone::findOrFail($id);
+        return view('zones.editzone', compact('zone'));
+    }
 }
 
 
