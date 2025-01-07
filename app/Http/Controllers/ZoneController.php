@@ -5,27 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Zone;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ZoneController extends Controller
 {
-    //
-   /*  public function index()
-    {
-       
-        $zoneCount = Zone::where('owner', Auth::id())->count();
-       
-        $zones = Zone::where('owner', Auth::id())->get();
     
-       
-        return view('zones.index', compact('zones', 'zoneCount'));
-    } */
     public function index()
 {
     if (auth()->user()->role === 'admin') {
-        // सभी ज़ोन और उनके मालिक दिखाएं
+        
         $zones = Zone::with('user')->get();
     } else {
-        // केवल लॉगिन उपयोगकर्ता से जुड़े ज़ोन दिखाएं
+        
         $zones = Zone::where('owner', auth()->id())->get();
     }
 
@@ -44,6 +35,22 @@ public function show($id)
 
 public function store(Request $request)
 {
+    $request->validate([
+        'name' => 'required|unique:zones,name', // Ensures the zone name is unique
+        'refresh' => 'required',
+        'retry' => 'required',
+        'expire' => 'required',
+        'ttl' => 'required',
+        'pri_dns' => 'required',
+        'sec_dns' => 'required',
+    ]);
+
+    // Check if the zone already exists
+    $existingZone = Zone::where('name', $request->name)->first();
+    if ($existingZone) {
+        // If zone already exists, return error
+        return back()->with('error', 'The zone already exists in the database.');
+    }
     $zone = new Zone();
     $zone->name = $request->name;
     $zone->refresh = $request->refresh;
@@ -84,7 +91,40 @@ public function store(Request $request)
     {
         // Find the zone by ID and pass it to the edit view
         $zone = Zone::findOrFail($id);
-        return view('zones.editzone', compact('zone'));
+        $users = User::all();
+        return view('zones.editzone', compact('zone','users'));
+    }
+    public function update(Request $request, $id)
+    {
+        // Find the Zone by its ID
+        $zone = Zone::findOrFail($id);
+
+        // Validate the incoming request
+        $request->validate([
+            'name' => 'required|string',
+            'refresh' => 'required|integer',
+            'retry' => 'required|integer',
+            'expire' => 'required|integer',
+            'ttl' => 'required|integer',
+            'pri_dns' => 'required|string',
+            'sec_dns' => 'required|string',
+            'owner' => 'required|exists:users,id',
+        ]);
+
+        // Update the Zone with the new data
+        $zone->update([
+            'name' => $request->name,
+            'refresh' => $request->refresh,
+            'retry' => $request->retry,
+            'expire' => $request->expire,
+            'ttl' => $request->ttl,
+            'pri_dns' => $request->pri_dns,
+            'sec_dns' => $request->sec_dns,
+            'owner' => $request->owner,
+        ]);
+
+        // Redirect with a success message
+        return redirect()->route('zones.index')->with('success', 'Zone updated successfully!');
     }
 }
 

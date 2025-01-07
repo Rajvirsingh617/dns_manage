@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index()
-{
-    // Count the zones for the logged-in user
-    $zoneCount = Zone::where('owner', Auth::id())->count();
+    {
+        $zoneCount = 0; // Default count for non-admins
+        $totalZones = 0; // Default total count
 
-    // Pass the $zoneCount to the view
-    return view('layouts.dashboard', compact('zoneCount'));
+        if (auth()->user()->role === 'admin') {
+            // Admin sees all zones
+            $totalZones = Zone::count();
+        } else {
+            // Regular user sees only their zones
+            $zoneCount = Zone::where('owner', Auth::id())->count();
+        }
+
+        return view('layouts.dashboard', compact('zoneCount', 'totalZones'));
+    }
+
 }
 
-}
+

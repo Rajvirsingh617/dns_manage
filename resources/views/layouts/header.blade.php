@@ -1,3 +1,6 @@
+{{-- @extends('layouts.app')
+
+@section('content') --}}
 <div class="header">
     <!-- Horizontal line -->
     <nav class="main-header navbar navbar-expand navbar-dark navbar-gray">
@@ -31,4 +34,5 @@
     
     <hr class="horizontal-line">
 </div>
+{{-- @endsection --}}
 

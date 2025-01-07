@@ -12,7 +12,7 @@
     <h1 class="m-0 text-dark" style="text-align: left !important; margin-bottom: 20px;">Main</h1>
 </div>
 
-<div class="custom-box" style="margin-bottom:50px;margin-top:20px;border-top: 5px solid #007bff">
+<div class="custom-box" style="margin-bottom:50px;margin-top:20px;border-top: 5px solid #007bff ">
     <div class="col-sm-15">
         <div class="row">
             <div class="col-md-6">
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="container-fluid">
-    <div class="row">
+    <div class="row justify-content-center">
         <!-- First Info Box -->
         <div class="col-md-4 col-sm-6 col-12">
             <div class="info-box bg-gradient-success">
@@ -44,29 +44,17 @@
                     <i class="fas fa-table"></i>
                 </span>
                 <div class="info-box-content">
-                    <span class="info-box-number" style="font-weight: bold; color: black;">You Maintain</span>
-                    <span class="info-box-text" style="font-weight: bold; color: black;">
-                        {{ $zoneCount }} Zones
-                    </span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Third Info Box -->
-        <div class="col-md-4 col-sm-6 col-12">
-            <div class="info-box bg-gradient-info">
-                <span class="info-box-icon">
-                    <a href="http://secure.studio4host.com/user/domainchecker.php" target="_blank" style="color:#fff">
-                        <i class="fa fa-cart-plus"></i>
-                    </a>
-                </span>
-                <div class="info-box-content">
-                    <span class="info-box-number" style="font-weight: bold;">
-                        <a href="http://secure.studio4host.com/user/domainchecker.php" target="_blank" style="color:#fff">
-                            Buy
-                        </a>
-                    </span>
-                    <span class="info-box-text" style="font-weight: bold;">New Domains</span>
+                    @if(auth()->user()->role === 'admin')
+                        <span class="info-box-number" style="font-weight: bold; color: black;">All Zones</span>
+                        <span class="info-box-text" style="font-weight: bold; color: black;">
+                            {{ $totalZones }} Zones
+                        </span>
+                    @else
+                        <span class="info-box-number" style="font-weight: bold; color: black;">You Maintain</span>
+                        <span class="info-box-text" style="font-weight: bold; color: black;">
+                            {{ $zoneCount }} Zones
+                        </span>
+                    @endif
                 </div>
             </div>
         </div>

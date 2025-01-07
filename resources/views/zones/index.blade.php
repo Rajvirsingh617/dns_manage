@@ -12,20 +12,12 @@
 
 <h1>Zones</h1>
 
-<div class="custom-box" style="margin-bottom: 50px; margin-top: 20px; border-top: 5px solid #007bff; padding-top: 15px;">
+<div class="custom-box" style="margin-bottom: 50px; margin-top: 20px; border-top: 5px solid #007bff; padding-top: 15px;width">
     <div class="col-sm-15">
         <div class="row">
             <div class="col-md-12 text-right">
                 <a class="btn btn-primary btn-flat" href="{{ route('zones.create') }}">
                     <i class="fa fa-plus-circle"></i> Create a new zone
-                </a>
-                |
-                <a class="btn btn-primary btn-flat" href="http://secure.studio4host.com/user/domainchecker.php?language=English&currency=7&systpl=hr" target="_blank">
-                    <i class="fa fa-cart-plus"></i> Buy Domains
-                </a>
-                |
-                <a class="btn btn-primary btn-flat" href="http://leafdns.com" target="_blank">
-                    <i class="fa fa-globe"></i> LeafDNS
                 </a>
             </div>
         </div>
@@ -80,11 +72,15 @@
             
                 </thead>
                 <tbody>
-                    @foreach($zones as $zone)
-                    <tr>
+                    @foreach($zones as $index => $zone)
+                    <tr style="background-color: {{ $index % 2 == 0 ? '#f2f2f2' : '#ffffff' }};">
                         <td>
-                            <a href="{{ route('zones.editzone', ['id' => $zone->id]) }}"><span style="background-color: rgb(0, 132, 255); color: white; padding: 2px 4px; border-radius: 3px;">{{ $zone->name }}</span>
-                        </td></a>
+                            <a href="{{ route('zones.editzone', ['id' => $zone->id]) }}">
+                                <span style="background-color: rgb(0, 132, 255); color: white; padding: 2px 4px; border-radius: 3px;">
+                                    {{ $zone->name }}
+                                </span>
+                            </a>
+                        </td>
                         <td>{{ $zone->id }}</td>
                         <td>{{ $zone->user->username ?? 'N/A' }}</td> <!-- ज़ोन के मालिक का नाम -->
                         <td>
@@ -94,10 +90,14 @@
                             <span class="right badge badge-secondary"><i class="fa fa-times"></i></span>
                         </td>
                         <td>
-                            <form action="{{ route('zones.destroy', $zone->id) }}" method="POST" onsubmit="return confirmDelete()">
+                            <!-- The form for deleting a zone -->
+                            <form action="{{ route('zones.destroy', $zone->id) }}" method="POST" id="deleteForm-{{ $zone->id }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                                <!-- Button triggers SweetAlert2 confirmation dialog -->
+                                <button type="button" class="btn btn-danger btn-xs" onclick="confirmDelete({{ $zone->id }})">
+                                    <i class="fa fa-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -116,12 +116,7 @@
                     });
                 });
             </script>
-            <script>
-            function confirmDelete() {
-                return confirm('Are you sure you want to delete this zone?');
-    }
-</script>
-
+            
             <div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="table_zone_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="table_zone_previous"><a href="#" aria-controls="table_zone" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="table_zone" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="table_zone_next"><a href="#" aria-controls="table_zone" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div>
     </div>
 </div>

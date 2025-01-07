@@ -26,7 +26,6 @@ class CreateZonesTable extends Migration
         $table->string('mail')->nullable();
         $table->string('ftp')->nullable();
         $table->unsignedBigInteger('owner')->nullable();
-
         $table->timestamps();
         });
     }

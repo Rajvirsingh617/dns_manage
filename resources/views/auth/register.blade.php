@@ -89,5 +89,5 @@
         </div>
     </div>
 </body>
-@include('auth.footer')
+{{-- @include('layouts.footer') --}}
 </html>

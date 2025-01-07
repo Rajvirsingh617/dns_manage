@@ -292,7 +292,7 @@
     </style>
 </head>
 <body>
-    @include('auth.header')
+    @include('layouts.header')
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -304,7 +304,7 @@
         
         <ul class="nav flex-column container mt-4">
             <li class="nav-item">
-                <a class="nav-link" href="dashboard">
+                <a class="nav-link" href="{{ route('dashboard') }}">
                     <i class="fa fa-home"></i>
                     <span>Main</span> <!-- This is the text that will be hidden -->
                 </a>
@@ -341,7 +341,9 @@
         <main>
             @yield('content')
         </main>
+        {{-- @include('layouts.footer') --}}
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -369,9 +371,27 @@
         @endif
     });
 </script>
+<script>
+    function confirmDelete(zoneId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form if the user confirmed
+                document.getElementById('deleteForm-' + zoneId).submit();
+            }
+        });
+    }
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>  
 </body>
-@include('auth.footer')
 </html>
