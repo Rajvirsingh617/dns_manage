@@ -98,6 +98,7 @@ public function store(Request $request)
     {
         // Find the Zone by its ID
         $zone = Zone::findOrFail($id);
+       
 
         // Validate the incoming request
         $request->validate([
@@ -108,9 +109,9 @@ public function store(Request $request)
             'ttl' => 'required|integer',
             'pri_dns' => 'required|string',
             'sec_dns' => 'required|string',
-            'owner' => 'required|exists:users,id',
+            'owner' => 'required|exists:dns_users,id',
         ]);
-
+        $zone->update($request->only(['refresh', 'retry', 'expire', 'ttl', 'pri_dns', 'sec_dns', 'owner']));
         // Update the Zone with the new data
         $zone->update([
             'name' => $request->name,
@@ -122,6 +123,12 @@ public function store(Request $request)
             'sec_dns' => $request->sec_dns,
             'owner' => $request->owner,
         ]);
+       
+        $data = $request->only(['name', 'refresh', 'retry', 'expire', 'ttl', 'pri_dns', 'sec_dns', 'owner']);
+     // Confirm the data being passed to the update method
+
+        $zone->update($data);
+        
 
         // Redirect with a success message
         return redirect()->route('zones.index')->with('success', 'Zone updated successfully!');

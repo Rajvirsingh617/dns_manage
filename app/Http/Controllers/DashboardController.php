@@ -20,6 +20,7 @@ class DashboardController extends Controller
         } else {
             // Regular user sees only their zones
             $zoneCount = Zone::where('owner', Auth::id())->count();
+            
         }
 
         return view('layouts.dashboard', compact('zoneCount', 'totalZones'));

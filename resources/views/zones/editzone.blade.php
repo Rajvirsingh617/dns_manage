@@ -72,15 +72,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group row" style="margin-top: 2em;">
-                                    <label for="focusedinput" class="col-sm-2 control-label">Zone/Domain</label>
+                                    <label for="name" class="col-sm-2 control-label"><strong>Zone/Domain</strong></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $zone->name }}" disabled>
+                                            value="{{ $zone->name }}" readonly>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="focusedinput" class="col-sm-2 control-label">Refresh</label>
+                                    <label for="focusedinput" class="col-sm-2 control-label"><strong>Refresh</strong></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="refresh" name="refresh"
                                             value="{{ $zone->refresh }}" placeholder="Refresh">
@@ -88,7 +88,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="focusedinput" class="col-sm-2 control-label">Retry</label>
+                                    <label for="focusedinput" class="col-sm-2 control-label"><strong>Retry</strong></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="retry" name="retry"
                                             value="{{ $zone->retry }}" placeholder="Retry">
@@ -96,7 +96,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="focusedinput" class="col-sm-2 control-label">Expire</label>
+                                    <label for="focusedinput" class="col-sm-2 control-label"><strong>Expire</strong></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="expire" name="expire"
                                             value="{{ $zone->expire }}" placeholder="Expire">
@@ -104,7 +104,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="focusedinput" class="col-sm-2 control-label">Time To Live</label>
+                                    <label for="focusedinput" class="col-sm-2 control-label"><strong>Time To Live</strong></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="ttl" name="ttl"
                                             value="{{ $zone->ttl }}" placeholder="Time To Live">
@@ -112,7 +112,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="focusedinput" class="col-sm-2 control-label">Primary NS</label>
+                                    <label for="focusedinput" class="col-sm-2 control-label"><strong>Primary NS</strong></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="pri_dns" name="pri_dns"
                                             value="{{ $zone->pri_dns }}" placeholder="Primary NS">
@@ -120,14 +120,14 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="focusedinput" class="col-sm-2 control-label">Secondary NS</label>
+                                    <label for="focusedinput" class="col-sm-2 control-label"><strong>Secondary NS</strong></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="sec_dns" name="sec_dns"
                                             value="{{ $zone->sec_dns }}" placeholder="Secondary NS">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="owner" class="col-sm-2 control-label">Owner</label>
+                                    <label for="owner" class="col-sm-2 control-label"><strong>Owner</strong></label>
                                     <div class="col-sm-8">
                                         <select name="owner" id="owner" class="form-control select2">
                                             <option value="{{ $zone->user->id }}" selected>
