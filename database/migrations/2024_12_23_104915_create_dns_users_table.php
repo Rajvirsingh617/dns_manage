@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dns_users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable(false);
             $table->string('password');
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->rememberToken(); // Add the remember_token column

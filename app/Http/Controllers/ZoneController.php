@@ -12,17 +12,14 @@ class ZoneController extends Controller
     
     public function index()
 {
-    if (auth()->user()->role === 'admin') {
-        
+    if (auth()->user()->role === 'admin') {      
         $zones = Zone::with('user')->get();
-    } else {
-        
+    } else {   
         $zones = Zone::where('owner', auth()->id())->get();
     }
 
     return view('zones.index', compact('zones'));
 }
-
 
 public function show($id)
 {
@@ -30,19 +27,17 @@ public function show($id)
     return view('zones.show', compact('zone')); // Create the `zones/show.blade.php` file
 }
 
-
-
-
 public function store(Request $request)
 {
     $request->validate([
-        'name' => 'required|unique:zones,name', // Ensures the zone name is unique
+        'name' => ['required','unique:zones,name','regex:/^[a-z]/',], // Ensures the zone name is unique
         'refresh' => 'required',
         'retry' => 'required',
         'expire' => 'required',
         'ttl' => 'required',
-        'pri_dns' => 'required',
-        'sec_dns' => 'required',
+        'pri_dns' => 'required|string',
+        'sec_dns' => 'required|string',
+        'user_id' => 'nullable|exists:dns_users,id',
     ]);
 
     // Check if the zone already exists
@@ -62,20 +57,25 @@ public function store(Request $request)
     $zone->www = $request->www;
     $zone->mail = $request->mail;
     $zone->ftp = $request->ftp;
-    $zone->owner = Auth::id(); // लॉगिन यूजर का ID स्टोर करें
+    // लॉगिन यूजर का ID स्टोर करें
+   
+
+    if (auth()->user()->isAdmin() && $request->user_id) {
+        $zone->owner = $request->user_id; // Store the selected user's ID as the owner
+    } else {
+        $zone->owner = Auth::id(); // Store the logged-in user's ID as the owner
+    }
+
     $zone->save();
 
     return redirect()->route('zones.index')->with('success', 'Zone added successfully!');
 }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         // Return the create zone view
-        return view('zones.newzone');
+        $users = User::where('role', '!=', 'admin')->get();
+        return view('zones.newzone', compact('users')); 
     }
 
     public function destroy($id)
@@ -127,5 +127,3 @@ public function store(Request $request)
         return redirect()->route('zones.index')->with('success', 'Zone updated successfully!');
     }
 }
-
-

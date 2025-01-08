@@ -25,6 +25,7 @@ class AuthController extends Controller
 
     // Attempt to log in the user with the given username and password
     if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
+        $role = Auth::user()->role;
         return redirect()->intended('/dashboard')->with('popup', 'Login successful!');
     }
 

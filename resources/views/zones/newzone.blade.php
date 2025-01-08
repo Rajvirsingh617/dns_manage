@@ -40,7 +40,23 @@
                         <!-- Zone form starts here -->
                         <form action="{{ route('zones.store') }}" method="POST">
                             @csrf
-                            
+                            @if(auth()->user()->isAdmin())
+                                <div class="form-group row">
+                                    <label for="user_id" class="col-sm-2 control-label"><strong>User</strong></label>
+                                    <div class="col-sm-8">
+                                        <select id="user_id" name="user_id" class="form-control">
+                                            <option value="">Select User</option>
+                                            @foreach($users as $user)
+                                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                                    {{ $user->username }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                        
+                        
                             <div class="form-group row" style="margin-top: 2em;">
                                 <label for="name" class="col-sm-2 control-label"><strong>Zone/Domain</strong></label>
                                 <div class="col-sm-8">
