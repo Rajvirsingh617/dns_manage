@@ -17,7 +17,7 @@ class ZoneController extends Controller
     } else {   
         $zones = Zone::where('owner', auth()->id())->get();
     }
-
+    $zones = Zone::paginate(10);
     return view('zones.index', compact('zones'));
 }
 

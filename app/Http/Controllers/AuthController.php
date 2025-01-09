@@ -16,7 +16,7 @@ class AuthController extends Controller
 
     // Handle Login Request
     public function login(Request $request)
-{
+    {
     // Validate the login form input
     $request->validate([
         'username' => 'required|string',
@@ -28,22 +28,21 @@ class AuthController extends Controller
         $role = Auth::user()->role;
         return redirect()->intended('/dashboard')->with('popup', 'Login successful!');
     }
-
     // If authentication fails, redirect back with an error message
     return back()->withErrors(['login' => 'Invalid username or password.'])->withInput();
-}
+    }
     // Logout User
+
     public function logout()
-{
+    {
     Auth::logout();
     session()->forget('username');
     return redirect('/login');
-}
-public function getRoleAttribute()
-{
+    }
+
+    public function getRoleAttribute()
+    {
     return $this->attributes['role']; // Assuming the 'role' column exists in the database
-}
+    }
 
 }
-
-

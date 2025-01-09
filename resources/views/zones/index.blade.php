@@ -38,7 +38,8 @@
             <!-- "Show entries" Section -->
             <div>
                 <label>Show
-                    <select name="table_zone_length" aria-controls="table_zone" class="custom-select custom-select-sm form-control form-control-sm d-inline-block"style="width: 70px;">
+                    <select id="entriesCount" class="custom-select custom-select-sm form-control form-control-sm d-inline-block" style="width: 70px;">
+                        <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -82,7 +83,7 @@
                             </a>
                         </td>
                         <td>{{ $zone->id }}</td>
-                        <td>{{ $zone->user->username ?? 'N/A' }}</td> <!-- ज़ोन के मालिक का नाम -->
+                        <td>{{ $zone->user->username ?? 'N/A' }}</td> 
                         <td>
                             <span class="right badge badge-success"><i class="fa fa-check-circle"></i></span>
                         </td>
@@ -105,19 +106,26 @@
                 </tbody>
                 
             </table>
-            <script>
-                document.getElementById('searchInput').addEventListener('keyup', function () {
-                    const filter = this.value.toLowerCase();
-                    const rows = document.querySelectorAll('#dataTable tbody tr');
-                    
-                    rows.forEach(row => {
-                        const text = row.innerText.toLowerCase();
-                        row.style.display = text.includes(filter) ? '' : 'none';
-                    });
-                });
-            </script>
-            
-            <div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="table_zone_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="table_zone_previous"><a href="#" aria-controls="table_zone" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="table_zone" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="table_zone_next"><a href="#" aria-controls="table_zone" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div>
+          
+            <div class="col-sm-12 col-md-7">
+                <div class="dataTables_paginate paging_simple_numbers" id="table_zone_paginate">
+                  <ul class="pagination">
+                    <li class="paginate_button page-item previous disabled" id="table_zone_previous">
+                      <a href="#" class="page-link" onclick="changePage('prev')">Previous</a>
+                    </li>
+                    <li class="paginate_button page-item" id="page-1">
+                      <a href="#" class="page-link" onclick="changePage(1)">1</a>
+                    </li>
+                    <li class="paginate_button page-item" id="page-2">
+                      <a href="#" class="page-link" onclick="changePage(2)">2</a>
+                    </li>
+                    <li class="paginate_button page-item next" id="table_zone_next">
+                      <a href="#" class="page-link" onclick="changePage('next')">Next</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
     </div>
 </div>
 @endsection
