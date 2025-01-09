@@ -9,9 +9,7 @@
         <li class="breadcrumb-item">Zones</li>
     </ol>
 </div>
-
 <h1>Zones</h1>
-
 <div class="custom-box" style="margin-bottom: 50px; margin-top: 20px; border-top: 5px solid #007bff; padding-top: 15px;width">
     <div class="col-sm-15">
         <div class="row">
@@ -56,9 +54,6 @@
             </div>
         </div>
     </div>
-    
-    
-    
         <table class="table"id="dataTable">
             <thead>
                 <tr class="text-white bg-primary">
@@ -114,10 +109,10 @@
                       <a href="#" class="page-link" onclick="changePage('prev')">Previous</a>
                     </li>
                     <li class="paginate_button page-item" id="page-1">
-                      <a href="#" class="page-link" onclick="changePage(1)">1</a>
+                        <a href="{{ $zones->url(1) }}" class="page-link" onclick="changePage(1)">1</a>
                     </li>
                     <li class="paginate_button page-item" id="page-2">
-                      <a href="#" class="page-link" onclick="changePage(2)">2</a>
+                      <a href="{{ $zones->url(2) }}" class="page-link" onclick="changePage(2)">2</a>
                     </li>
                     <li class="paginate_button page-item next" id="table_zone_next">
                       <a href="#" class="page-link" onclick="changePage('next')">Next</a>
@@ -125,7 +120,6 @@
                   </ul>
                 </div>
               </div>
-              
     </div>
 </div>
 @endsection

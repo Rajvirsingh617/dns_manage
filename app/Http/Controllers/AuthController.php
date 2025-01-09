@@ -44,5 +44,35 @@ class AuthController extends Controller
     {
     return $this->attributes['role']; // Assuming the 'role' column exists in the database
     }
+    public function showResetPasswordForm($token)
+    {
+        return view('auth.resetpassword', compact('token'));
+    }
 
+    // Handle the reset password request
+    public function resetPassword(Request $request)
+    {
+        // Validate the form input
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Assuming you use a Token-based password reset approach, validate the token here
+        // Update the user's password
+        $user = User::where('email', $request->email)->first(); // Example: retrieve user by email
+        if ($user) {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return redirect()->route('login')->with('success', 'Password reset successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+    }
 }
+
+

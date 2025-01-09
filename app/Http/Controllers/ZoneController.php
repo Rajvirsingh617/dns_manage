@@ -10,16 +10,16 @@ use App\Models\User;
 class ZoneController extends Controller
 {
     
-    public function index()
+    public function index() 
 {
     if (auth()->user()->role === 'admin') {      
-        $zones = Zone::with('user')->get();
+        $zones = Zone::with('user')->paginate(10); // Corrected the typo here
     } else {   
-        $zones = Zone::where('owner', auth()->id())->get();
+        $zones = Zone::where('owner', auth()->id())->paginate(10);
     }
-    $zones = Zone::paginate(10);
     return view('zones.index', compact('zones'));
 }
+
 
 public function show($id)
 {

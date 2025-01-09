@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DNS Manager Login</title>
+    <title>Reset Password - DNS Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"> <!-- Font Awesome -->
     <style>
@@ -15,15 +15,15 @@
             align-items: center;
             height: 100vh;
         }
-        .login-card {
+        .reset-password-card {
             width: 600px;
-            background: rgba(255, 255, 255, 0.8); /* Slight transparency for the login card */
+            background: rgba(255, 255, 255, 0.8); /* Slight transparency for the reset password card */
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px); /* Apply the blur effect to the background */
         }
-        .login-card h2 {
+        .reset-password-card h2 {
             text-align: center;
             margin-bottom: 20px;
         }
@@ -41,29 +41,26 @@
         .form-control {
             padding-left: 35px;
         }
-        .login-card .content-wrapper {
+        .reset-password-card .content-wrapper {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .login-card .content-wrapper p {
+        .reset-password-card .content-wrapper p {
             flex: 1;
         }
     </style>
 </head>
 <body>
-   
-
-   
-    <div class="login-card">
+    <div class="reset-password-card">
         <h2 style="text-align: center; margin-bottom: 20px; background-color: #007bff; color: white; padding: 10px; border-radius: 8px; border: 2px solid #0056b3;">
-            Login
+            Reset Password
         </h2>
         <div class="content-wrapper">
-            <p>Please note that FREE-DNS Manager is NOT needed if you have your own server. With CWP, we recommend that you use your own server for DNS hosting as it will provide you with automatic DNS zone configuration.</p>
+            <p>Please enter your new password to reset it.</p>
             <img src="/images/dnss.png" alt="Logo" style="width: 80px; height: auto;">
         </div>
-        <p>Instructions for private nameservers setup:</p>
+
         <!-- Display validation errors if any -->
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -75,24 +72,21 @@
             </div>
         @endif
 
-        <form action="/login" method="POST">
+        <form action="/reset-password" method="POST">
             @csrf
+            
             <div class="form-group">
-                <i class="fa fa-user"></i>
-                <input type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" required>
+                <i class="fa fa-lock"></i>
+                <input type="password" class="form-control" name="new_password" placeholder="New Password" required>
             </div>
             <div class="form-group">
                 <i class="fa fa-lock"></i>
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
             </div>
-            <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                <label class="form-check-label" for="rememberMe">Remember me</label>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+            <button type="submit" class="btn btn-primary w-100">Reset Password</button>
         </form>
         <div class="mt-3 text-center">
-            <a href="/resetpassword">Forgot Password?</a> | 
+            <a href="/login">Back to Login</a> | 
             <a href="/">Create an account</a>
         </div>
     </div>
