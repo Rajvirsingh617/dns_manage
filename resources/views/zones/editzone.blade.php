@@ -13,31 +13,60 @@
 <div class="custom-box"
     style="margin-bottom: 50px; margin-top: 20px; border-top: 5px solid #007bff; padding-top: 15px;">
     <div class="card-body">
-        <!-- //header-ends -->
-        <!-- main content start-->
+        <!-- Main Content -->
         <div id="page-wrapper">
             <div class="main-page">
                 <div class="sign-up-row widget-shadow">
                     <p>Here you can modify your zone's SOA record, or add, edit, or delete resource records</p>
+    
                     <div class="row">
-                        <div class="col-md-12 text-right"><a class="btn btn-danger btn-xs" style="color:#fff"
-                                onclick="deletezone('86527')"><i class="fa fa-trash"></i> Delete Zone</a></div>
-                        <div class="well col-md-6">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h3>Dns Zone Test</h3>
-                                </div>
-
-                            </div>
-                            <pre style="background: #e9ecef;border-radius:10px">{{ $zone->name }} /IN: loaded serial {{ $zone->id }} OK</pre>
+                        <!-- Delete Form -->
+                        <div class="col-md-12 text-right mb-3">
+                            <form action="{{ route('zones.destroy', $zone->id) }}" method="POST" id="deleteForm-{{ $zone->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger btn-xs" onclick="confirmDelete({{ $zone->id }})">
+                                    <i class="fa fa-trash"></i> Delete Zone
+                                </button>
+                            </form>
                         </div>
+    
+                        <!-- DNS Zone Test -->
                         <div class="col-md-6">
-                            <h3>Real Domain nameservers</h3>
-                            <div style="text-align:left;padding:15px;background: #e9ecef;border-radius:10px;font-family: SFMono-Regular,Menlo,Monaco,Consolas,"
-                                liberation="" mono','courier="" new',monospace;font-size:="" 1em;"="">
-                                ns1.digimedia.com<br> ns2.digimedia.com<br> </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>DNS Zone Test</h3>
+                                </div>
+                                <div class="card-body">
+                                    <pre style="background: #e9ecef; border-radius: 10px; padding: 15px;">
+    {{ $zone->name }} /IN: loaded serial {{ $zone->id }} OK
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Real Domain Nameservers -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Real Domain Nameservers</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div style="padding: 15px; background: #e9ecef; border-radius: 10px;">
+                                        <code>
+                                            ns1.digimedia.com<br>
+                                            ns2.digimedia.com
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
                     <div class="row">
                         <div class="col-sm-12">
                             <form name="form1" method="POST" action="{{ route('zones.update', $zone->id) }}">
@@ -56,7 +85,7 @@
                                     <div class="callout callout-info col-md-8">
                                         <h5><i class="icon fas fa-success"></i> You need to set your domain nameservers
                                             to:</h5>
-                                        <div align="left">
+                                        <div align ="left">
                                             <span style="font-size: 14px"
                                                 class="badge bg-secondary">ns1.centos-webpanel.com </span><br>
                                             <span style="font-size: 14px"
@@ -151,7 +180,7 @@
 
                             <table class="table table-stiped">
                                 <thead>
-                                    <tr class="bg-lightblue">
+                                    <tr class="text-white bg-primary">
                                         <th>Host</th>
                                         <th>Type</th>
                                         <th>Destination</th>
@@ -160,11 +189,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-
                                     <tr>
                                         <td>
-                                            <input type="text" name="host[0]" class=" form-control" value="@" size="16">
+                                            <input type="text" name="host[0]" class=" form-control" value="" size="16">
                                             <input type="hidden" name="host_id[0]" value="351949">
                                         </td>
                                         <td>
@@ -187,245 +214,33 @@
                                                 <option value="TXT">TXT</option>
                                                 <option value="WKS">WKS</option>
                                                 <option value=""></option>
-
                                             </select>
                                         </td>
                                         <td>
-
-
                                             <input type="text" name="destination[0]" class=" form-control" size="26"
                                                 value="{{ $zone->www }}">
-
-
                                         </td>
                                         <td>
-
                                             <span class="right badge badge-success" style="padding: 3px"><i
                                                     class="fa fa-check-circle"></i></span>
-
                                         </td>
                                         <td>
                                             <center><input type="checkbox" name="delete[0]" class=""></center>
                                         </td>
                                     </tr>
-
-
-
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="host[1]" class=" form-control" value="@" size="16">
-                                            <input type="hidden" name="host_id[1]" value="351952">
-                                        </td>
-                                        <td>
-                                            <select name="type[1]" class=" form-control">
-                                                <option value="A">A</option>
-                                                <option value="A6">A6</option>
-                                                <option value="AAAA">AAAA</option>
-                                                <option value="AFSDB">AFSDB</option>
-                                                <option value="CNAME">CNAME</option>
-                                                <option value="DNAME">DNAME</option>
-                                                <option value="DS">DS</option>
-                                                <option value="LOC">LOC</option>
-                                                <option selected="" value="MX">MX</option>
-                                                <option value="NAPTR">NAPTR</option>
-                                                <option value="NS">NS</option>
-                                                <option value="PTR">PTR</option>
-                                                <option value="RP">RP</option>
-                                                <option value="SRV">SRV</option>
-                                                <option value="SSHFP">SSHFP</option>
-                                                <option value="TXT">TXT</option>
-                                                <option value="WKS">WKS</option>
-                                                <option value=""></option>
-
-                                            </select>
-                                        </td>
-                                        <td>
-
-
-                                            <input type="text" name="pri[1]" class=" form-control" size="1" value="10">
-
-                                            <input type="text" name="destination[1]" class=" form-control" size="26"
-                                                value="{{ $zone->name }}">
-
-
-                                        </td>
-                                        <td>
-
-                                            <span class="right badge badge-success" style="padding: 3px"><i
-                                                    class="fa fa-check-circle"></i></span>
-
-                                        </td>
-                                        <td>
-                                            <center><input type="checkbox" name="delete[1]" class=""></center>
-                                        </td>
-                                    </tr>
-
-
-
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="host[2]" class=" form-control" value="ftp"
-                                                size="16">
-                                            <input type="hidden" name="host_id[2]" value="351953">
-                                        </td>
-                                        <td>
-                                            <select name="type[2]" class=" form-control">
-                                                <option selected="" value="A">A</option>
-                                                <option value="A6">A6</option>
-                                                <option value="AAAA">AAAA</option>
-                                                <option value="AFSDB">AFSDB</option>
-                                                <option value="CNAME">CNAME</option>
-                                                <option value="DNAME">DNAME</option>
-                                                <option value="DS">DS</option>
-                                                <option value="LOC">LOC</option>
-                                                <option value="MX">MX</option>
-                                                <option value="NAPTR">NAPTR</option>
-                                                <option value="NS">NS</option>
-                                                <option value="PTR">PTR</option>
-                                                <option value="RP">RP</option>
-                                                <option value="SRV">SRV</option>
-                                                <option value="SSHFP">SSHFP</option>
-                                                <option value="TXT">TXT</option>
-                                                <option value="WKS">WKS</option>
-                                                <option value=""></option>
-
-                                            </select>
-                                        </td>
-                                        <td>
-
-
-                                            <input type="text" name="destination[2]" class=" form-control" size="26"
-                                                value="{{ $zone->ftp }}">
-
-
-                                        </td>
-                                        <td>
-
-                                            <span class="right badge badge-success" style="padding: 3px"><i
-                                                    class="fa fa-check-circle"></i></span>
-
-                                        </td>
-                                        <td>
-                                            <center><input type="checkbox" name="delete[2]" class=""></center>
-                                        </td>
-                                    </tr>
-
-
-
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="host[3]" class=" form-control" value="mail"
-                                                size="16">
-                                            <input type="hidden" name="host_id[3]" value="351951">
-                                        </td>
-                                        <td>
-                                            <select name="type[3]" class=" form-control">
-                                                <option selected="" value="A">A</option>
-                                                <option value="A6">A6</option>
-                                                <option value="AAAA">AAAA</option>
-                                                <option value="AFSDB">AFSDB</option>
-                                                <option value="CNAME">CNAME</option>
-                                                <option value="DNAME">DNAME</option>
-                                                <option value="DS">DS</option>
-                                                <option value="LOC">LOC</option>
-                                                <option value="MX">MX</option>
-                                                <option value="NAPTR">NAPTR</option>
-                                                <option value="NS">NS</option>
-                                                <option value="PTR">PTR</option>
-                                                <option value="RP">RP</option>
-                                                <option value="SRV">SRV</option>
-                                                <option value="SSHFP">SSHFP</option>
-                                                <option value="TXT">TXT</option>
-                                                <option value="WKS">WKS</option>
-                                                <option value=""></option>
-
-                                            </select>
-                                        </td>
-                                        <td>
-
-
-                                            <input type="text" name="destination[3]" class=" form-control" size="26"
-                                                value="{{ $zone->mail }}">
-
-
-                                        </td>
-                                        <td>
-
-                                            <span class="right badge badge-success" style="padding: 3px"><i
-                                                    class="fa fa-check-circle"></i></span>
-
-                                        </td>
-                                        <td>
-                                            <center><input type="checkbox" name="delete[3]" class=""></center>
-                                        </td>
-                                    </tr>
-
-
-
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="host[4]" class=" form-control" value="www"
-                                                size="16">
-                                            <input type="hidden" name="host_id[4]" value="351950">
-                                        </td>
-                                        <td>
-                                            <select name="type[4]" class=" form-control">
-                                                <option value="A">A</option>
-                                                <option value="A6">A6</option>
-                                                <option value="AAAA">AAAA</option>
-                                                <option value="AFSDB">AFSDB</option>
-                                                <option selected="" value="CNAME">CNAME</option>
-                                                <option value="DNAME">DNAME</option>
-                                                <option value="DS">DS</option>
-                                                <option value="LOC">LOC</option>
-                                                <option value="MX">MX</option>
-                                                <option value="NAPTR">NAPTR</option>
-                                                <option value="NS">NS</option>
-                                                <option value="PTR">PTR</option>
-                                                <option value="RP">RP</option>
-                                                <option value="SRV">SRV</option>
-                                                <option value="SSHFP">SSHFP</option>
-                                                <option value="TXT">TXT</option>
-                                                <option value="WKS">WKS</option>
-                                                <option value=""></option>
-
-                                            </select>
-                                        </td>
-                                        <td>
-
-
-                                            <input type="text" name="destination[4]" class=" form-control" size="26"
-                                                value="@">
-
-
-                                        </td>
-                                        <td>
-
-                                            <span class="right badge badge-success" style="padding: 3px"><i
-                                                    class="fa fa-check-circle"></i></span>
-
-                                        </td>
-                                        <td>
-                                            <center><input type="checkbox" name="delete[4]" class=""></center>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
-
                             <hr>
-
                             <h3>New Record</h3>
-
                             <table class="table table-stiped table-bordered">
                                 <thead>
-                                    <tr class="bg-lightblue">
+                                    <tr class="text-white bg-primary">
                                         <th>Host</th>
                                         <th>Type</th>
                                         <th>Destination</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <tr>
                                         <td>
                                             <input type="text" name="newhost" class="form-control" size="16">
@@ -450,9 +265,7 @@
                                                 <option value="TXT">TXT</option>
                                                 <option value="WKS">WKS</option>
                                                 <option value=""></option>
-
                                             </select>
-
                                         </td>
                                         <td><input type="text" name="newdestination" class="form-control" size="32">
                                         </td>
@@ -470,6 +283,4 @@
             </div>
         </div>
     </div>
-
-
     @endsection

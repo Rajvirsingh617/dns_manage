@@ -65,12 +65,9 @@ public function store(Request $request)
     } else {
         $zone->owner = Auth::id(); // Store the logged-in user's ID as the owner
     }
-
     $zone->save();
-
     return redirect()->route('zones.index')->with('success', 'Zone added successfully!');
 }
-
     public function create()
     {
         // Return the create zone view
@@ -98,8 +95,6 @@ public function store(Request $request)
     {
         // Find the Zone by its ID
         $zone = Zone::findOrFail($id);
-       
-
         // Validate the incoming request
         $request->validate([
             'name' => 'required|string',
@@ -126,10 +121,7 @@ public function store(Request $request)
        
         $data = $request->only(['name', 'refresh', 'retry', 'expire', 'ttl', 'pri_dns', 'sec_dns', 'owner']);
      // Confirm the data being passed to the update method
-
         $zone->update($data);
-        
-
         // Redirect with a success message
         return redirect()->route('zones.index')->with('success', 'Zone updated successfully!');
     }
