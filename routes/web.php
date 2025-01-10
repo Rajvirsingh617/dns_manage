@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/zones', [ZoneController::class, 'index'])->name('zones.index');
     Route::get('/zones/{id}', [ZoneController::class, 'show'])->name('zones.show');
     Route::get('/zones/{id}/edit', [ZoneController::class, 'edit'])->name('zones.editzone');
-    Route::put('/zones/{id}', [ZoneController::class, 'update'])->name('zones.update');
+    Route::put('/zones/{id}/update-records', [ZoneController::class, 'updateRecords'])->name('zones.updateRecords');
+    Route::put('/zones/{id}', [ZoneController::class, 'update'])->name('zones.update'); 
 
 
 });

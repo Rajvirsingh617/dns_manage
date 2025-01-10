@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Zone;
+use App\Models\ZoneRecord;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -21,13 +22,13 @@ class ZoneController extends Controller
 }
 
 
-public function show($id)
+    public function show($id)
 {
     $zone = Zone::findOrFail($id); // Ensure the Zone model is imported at the top
     return view('zones.show', compact('zone')); // Create the `zones/show.blade.php` file
 }
 
-public function store(Request $request)
+    public function store(Request $request)
 {
     $request->validate([
         'name' => ['required','unique:zones,name','regex:/^[a-z]/',], // Ensures the zone name is unique
@@ -68,6 +69,7 @@ public function store(Request $request)
     $zone->save();
     return redirect()->route('zones.index')->with('success', 'Zone added successfully!');
 }
+    
     public function create()
     {
         // Return the create zone view
@@ -87,7 +89,7 @@ public function store(Request $request)
     public function edit($id)
     {
         // Find the zone by ID and pass it to the edit view
-        $zone = Zone::findOrFail($id);
+        $zone = Zone::with('records')->findOrFail($id);
         $users = User::all();
         return view('zones.editzone', compact('zone','users'));
     }
@@ -124,5 +126,39 @@ public function store(Request $request)
         $zone->update($data);
         // Redirect with a success message
         return redirect()->route('zones.index')->with('success', 'Zone updated successfully!');
+    }
+        public function updateRecords(Request $request, $id)
+        {
+            // Find the Zone by its ID
+            $zone = Zone::findOrFail($id);
+
+        if ($request->has('host')) {
+            foreach ($request->host as $key => $host) {
+                $record = $zone->records()->find($request->record_id[$key]);
+                if ($record) {
+                    $record->update([
+                        'host' => $host,
+                        'type' => $request->type[$key],
+                        'destination' => $request->destination[$key],
+                    ]);
+    
+                    // Handle deletion if checkbox is checked
+                    if (isset($request->delete[$key])) {
+                        $record->delete();
+                    }
+                }
+            }
+        }
+    
+        // Add new record if provided
+        if ($request->filled(['newhost', 'newtype', 'newdestination'])) {
+            $zone->records()->create([
+                'host' => $request->newhost,
+                'type' => $request->newtype,
+                'destination' => $request->newdestination,
+            ]);
+        }
+    
+        return back()->with('success', 'Zone updated successfully!');
     }
 }

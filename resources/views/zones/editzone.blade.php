@@ -66,7 +66,6 @@
             </div>
         </div>
     </div>
-
                     <div class="row">
                         <div class="col-sm-12">
                             <form name="form1" method="POST" action="{{ route('zones.update', $zone->id) }}">
@@ -173,114 +172,121 @@
                             </form>
                         </div>
                     </div>
-
-                    <div class="row" style="margin-top: 2em;">
-
-                        <div class="col-sm-12">
-
-                            <table class="table table-stiped">
-                                <thead>
-                                    <tr class="text-white bg-primary">
-                                        <th>Host</th>
-                                        <th>Type</th>
-                                        <th>Destination</th>
-                                        <th>Valid</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="host[0]" class=" form-control" value="" size="16">
-                                            <input type="hidden" name="host_id[0]" value="351949">
-                                        </td>
-                                        <td>
-                                            <select name="type[0]" class=" form-control">
-                                                <option selected="" value="A">A</option>
-                                                <option value="A6">A6</option>
-                                                <option value="AAAA">AAAA</option>
-                                                <option value="AFSDB">AFSDB</option>
-                                                <option value="CNAME">CNAME</option>
-                                                <option value="DNAME">DNAME</option>
-                                                <option value="DS">DS</option>
-                                                <option value="LOC">LOC</option>
-                                                <option value="MX">MX</option>
-                                                <option value="NAPTR">NAPTR</option>
-                                                <option value="NS">NS</option>
-                                                <option value="PTR">PTR</option>
-                                                <option value="RP">RP</option>
-                                                <option value="SRV">SRV</option>
-                                                <option value="SSHFP">SSHFP</option>
-                                                <option value="TXT">TXT</option>
-                                                <option value="WKS">WKS</option>
-                                                <option value=""></option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="destination[0]" class=" form-control" size="26"
-                                                value="{{ $zone->www }}">
-                                        </td>
-                                        <td>
-                                            <span class="right badge badge-success" style="padding: 3px"><i
-                                                    class="fa fa-check-circle"></i></span>
-                                        </td>
-                                        <td>
-                                            <center><input type="checkbox" name="delete[0]" class=""></center>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>New Record</h3>
-                            <table class="table table-stiped table-bordered">
-                                <thead>
-                                    <tr class="text-white bg-primary">
-                                        <th>Host</th>
-                                        <th>Type</th>
-                                        <th>Destination</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="newhost" class="form-control" size="16">
-                                        </td>
-                                        <td>
-                                            <select name="nertype" class="form-control">
-                                                <option value="A">A</option>
-                                                <option value="A6">A6</option>
-                                                <option value="AAAA">AAAA</option>
-                                                <option value="AFSDB">AFSDB</option>
-                                                <option value="CNAME">CNAME</option>
-                                                <option value="DNAME">DNAME</option>
-                                                <option value="DS">DS</option>
-                                                <option value="LOC">LOC</option>
-                                                <option value="MX">MX</option>
-                                                <option value="NAPTR">NAPTR</option>
-                                                <option value="NS">NS</option>
-                                                <option value="PTR">PTR</option>
-                                                <option value="RP">RP</option>
-                                                <option value="SRV">SRV</option>
-                                                <option value="SSHFP">SSHFP</option>
-                                                <option value="TXT">TXT</option>
-                                                <option value="WKS">WKS</option>
-                                                <option value=""></option>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" name="newdestination" class="form-control" size="32">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <input type="hidden" name="total" value="5">
-                            <div style="text-align: center">
-                                <button type="submit" class="btn btn-primary"> <i class="fa fa-save"></i> Save</button>
+                    <form name="form2" method="POST" action="{{ route('zones.updateRecords', $zone->id) }}">
+                        @csrf
+                        @method('PUT') <!-- Specify the method as PUT for the update operation -->
+                        
+                        <div class="row" style="margin-top: 2em;">
+                            <div class="col-sm-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="text-white bg-primary">
+                                            <th>Host</th>
+                                            <th>Type</th>
+                                            <th>Destination</th>
+                                            <th>Valid</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Start Loop -->
+                                        @foreach($zone->records as $key => $record)
+                                        <tr>
+                                            <td>
+                                                <input type="hidden" name="record_id[{{ $key }}]" value="{{ $record->id }}">
+                                                <input type="text" name="host[{{ $key }}]" class="form-control" value="{{ $record->host }}" size="16">
+                                            </td>
+                                            <td>
+                                                <select name="type[{{ $key }}]" class="form-control">
+                                                    <option value="A" {{ $record->type == 'A' ? 'selected' : '' }}>A</option>
+                                                    <option value="AAAA" {{ $record->type == 'AAAA' ? 'selected' : '' }}>AAAA</option>
+                                                    <option value="CNAME" {{ $record->type == 'CNAME' ? 'selected' : '' }}>CNAME</option>
+                                                    <option value="DNAME" {{ $record->type == 'DNAME' ? 'selected' : '' }}>DNAME</option>
+                                                    <option value="DS" {{ $record->type == 'DS' ? 'selected' : '' }}>DS</option>
+                                                    <option value="LOC" {{ $record->type == 'LOC' ? 'selected' : '' }}>LOC</option>
+                                                    <option value="MX" {{ $record->type == 'MX' ? 'selected' : '' }}>MX</option>
+                                                    <option value="NAPTR" {{ $record->type == 'NAPTR' ? 'selected' : '' }}>NAPTR</option>
+                                                    <option value="NS" {{ $record->type == 'NS' ? 'selected' : '' }}>NS</option>
+                                                    <option value="PTR" {{ $record->type == 'PTR' ? 'selected' : '' }}>PTR</option>
+                                                    <option value="RP" {{ $record->type == 'RP' ? 'selected' : '' }}>RP</option>
+                                                    <option value="SRV" {{ $record->type == 'SRV' ? 'selected' : '' }}>SRV</option>
+                                                    <option value="SSHFP" {{ $record->type == 'SSHFP' ? 'selected' : '' }}>SSHFP</option>
+                                                    <option value="TXT" {{ $record->type == 'TXT' ? 'selected' : '' }}>TXT</option>
+                                                    <option value="WKS" {{ $record->type == 'WKS' ? 'selected' : '' }}>WKS</option>
+                                                    <option value="" {{ $record->type == '' ? 'selected' : '' }}></option>
+                                                    <!-- Add other types here -->
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="destination[{{ $key }}]" class="form-control" size="26" value="{{ $record->destination }}">
+                                            </td>
+                                            <td>
+                                                <span class="right badge {{ $record->valid ? 'badge-success' : 'badge-danger' }}" style="padding: 3px">
+                                                    <i class="fa {{ $record->valid ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <center><input type="checkbox" name="delete[{{ $key }}]" class=""></center>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        <!-- End Loop -->
+                                    </tbody>
+                                </table>
+                    
+                                <hr>
+                                <h3>New Record</h3>
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr class="text-white bg-primary">
+                                            <th>Host</th>
+                                            <th>Type</th>
+                                            <th>Destination</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="newhost" class="form-control" size="16">
+                                            </td>
+                                            <td>
+                                                <select name="newtype" class="form-control">
+                                                    <option value="A">A</option>
+                                                    <option value="AAAA">AAAA</option>
+                                                    <option value="CNAME">CNAME</option>
+                                                    <option value="DNAME">DNAME</option>
+                                                    <option value="DS">DS</option>
+                                                    <option value="LOC">LOC</option>
+                                                    <option value="MX">MX</option>
+                                                    <option value="NAPTR">NAPTR</option>
+                                                    <option value="NS">NS</option>
+                                                    <option value="PTR">PTR</option>
+                                                    <option value="RP">RP</option>
+                                                    <option value="SRV">SRV</option>
+                                                    <option value="SSHFP">SSHFP</option>
+                                                    <option value="TXT">TXT</option>
+                                                    <option value="WKS">WKS</option>
+                                                    <option value=""></option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="newdestination" class="form-control" size="26">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div style="text-align: center">
+                            <button type="submit" class="btn btn-primary"> <i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </form>
     @endsection
+
+
+
+
+
+
+    
+        
