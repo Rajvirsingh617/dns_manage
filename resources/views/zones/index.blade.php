@@ -2,6 +2,19 @@
 
 @section('content')
 
+@if(session('success'))
+<script>
+    Swal.fire({
+        title: 'Success!',
+        text: '{{ session('success') }}',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        allowOutsideClick: false
+    }).then(() => {
+        window.location.href = "{{ route('zones.index') }}";
+    });
+</script>
+@endif
 <div class="col-sm-15">
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="{{ route('zones.index') }}">Main</a>

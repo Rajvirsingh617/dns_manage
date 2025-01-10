@@ -383,6 +383,11 @@
                     <i class="fa fa-key"></i>
                     <span>Change Password</span>
                 </a>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('password.change') }}">
+                    <i class="fa-solid fa-webhook"></i>
+                    <span>AUTH API TOKEN</span>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-danger" href="{{ route('commit.changes') }}">

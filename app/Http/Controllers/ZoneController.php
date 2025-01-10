@@ -7,6 +7,8 @@ use App\Models\Zone;
 use App\Models\ZoneRecord;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+
 
 class ZoneController extends Controller
 {
@@ -31,22 +33,25 @@ class ZoneController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'name' => ['required','unique:zones,name','regex:/^[a-z]/',], // Ensures the zone name is unique
-        'refresh' => 'required',
-        'retry' => 'required',
-        'expire' => 'required',
-        'ttl' => 'required',
+        'name' => ['required', 'unique:zones,name', 'regex:/^[a-z]/'], // Ensures the zone name is unique
+        'refresh' => 'required|integer',
+        'retry' => 'required|integer',
+        'expire' => 'required|integer',
+        'ttl' => 'required|integer',
         'pri_dns' => 'required|string',
         'sec_dns' => 'required|string',
         'user_id' => 'nullable|exists:dns_users,id',
+        'host' => 'required|string|max:255|regex:/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/',
+        'type' => 'required|in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS',
+        'destination' => 'required|string|max:255', // Additional validations based on type can be added
     ]);
 
     // Check if the zone already exists
     $existingZone = Zone::where('name', $request->name)->first();
     if ($existingZone) {
-        // If zone already exists, return error
         return back()->with('error', 'The zone already exists in the database.');
     }
+
     $zone = new Zone();
     $zone->name = $request->name;
     $zone->refresh = $request->refresh;
@@ -55,20 +60,25 @@ class ZoneController extends Controller
     $zone->ttl = $request->ttl;
     $zone->pri_dns = $request->pri_dns;
     $zone->sec_dns = $request->sec_dns;
-    $zone->www = $request->www;
-    $zone->mail = $request->mail;
-    $zone->ftp = $request->ftp;
-    // लॉगिन यूजर का ID स्टोर करें
-   
 
     if (auth()->user()->isAdmin() && $request->user_id) {
-        $zone->owner = $request->user_id; // Store the selected user's ID as the owner
+        $zone->owner = $request->user_id;
     } else {
-        $zone->owner = Auth::id(); // Store the logged-in user's ID as the owner
+        $zone->owner = Auth::id();
     }
+
     $zone->save();
-    return redirect()->route('zones.index')->with('success', 'Zone added successfully!');
+
+    // Add the first record for the zone
+    $zone->records()->create([
+        'host' => $request->host,
+        'type' => $request->type,
+        'destination' => $request->destination,
+    ]);
+
+    return redirect()->route('zones.index')->with('success', 'Zone and record added successfully!');
 }
+
     
     public function create()
     {
@@ -134,31 +144,122 @@ class ZoneController extends Controller
 
         if ($request->has('host')) {
             foreach ($request->host as $key => $host) {
-                $record = $zone->records()->find($request->record_id[$key]);
-                if ($record) {
-                    $record->update([
-                        'host' => $host,
-                        'type' => $request->type[$key],
-                        'destination' => $request->destination[$key],
-                    ]);
-    
-                    // Handle deletion if checkbox is checked
-                    if (isset($request->delete[$key])) {
-                        $record->delete();
-                    }
+            $type = $request->type[$key];
+            $destination = $request->destination[$key];
+
+            // Validation rules for each record
+            $validator = Validator::make([
+                'host' => $host,
+                'type' => $type,
+                'destination' => $destination,
+            ], [
+                'host' => ['required', 'string', 'regex:/^([a-zA-Z0-9-]+\\.)*[a-zA-Z0-9-]+$/'],
+                'type' => ['required', 'in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS'],
+                'destination' => $this->getDestinationValidationRule($type),
+            ]);
+
+            // If validation fails, skip this record
+            if ($validator->fails()) {
+                continue; // Or log the error if necessary
+            }
+
+            $record = $zone->records()->find($request->record_id[$key]);
+            if ($record) {
+                $record->update([
+                    'host' => $host,
+                    'type' => $type,
+                    'destination' => $destination,
+                ]);
+
+                // Handle deletion if checkbox is checked
+                if (isset($request->delete[$key])) {
+                    $record->delete();
                 }
             }
         }
-    
-        // Add new record if provided
-        if ($request->filled(['newhost', 'newtype', 'newdestination'])) {
+    }
+
+    // Add new record if provided
+    if ($request->filled(['newhost', 'newtype', 'newdestination'])) {
+        $validator = Validator::make([
+            'host' => $request->newhost,
+            'type' => $request->newtype,
+            'destination' => $request->newdestination,
+        ], [
+            'host' => ['required', 'string', 'regex:/^([a-zA-Z0-9-]+\\.)*[a-zA-Z0-9-]+$/'],
+            'type' => ['required', 'in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS'],
+            'destination' => $this->getDestinationValidationRule($request->newtype),
+        ]);
+
+        if ($validator->passes()) {
             $zone->records()->create([
                 'host' => $request->newhost,
                 'type' => $request->newtype,
                 'destination' => $request->newdestination,
             ]);
         }
-    
-        return back()->with('success', 'Zone updated successfully!');
     }
+
+    return back()->with('success', 'Zone updated successfully!');
+    }
+    private function getDestinationValidationRule($type)
+{
+    switch ($type) {
+        case 'A':
+            // IPv4 address validation
+            return ['required', 'ipv4'];
+
+        case 'AAAA':
+            // IPv6 address validation
+            return ['required', 'ipv6'];
+
+        case 'CNAME':
+        case 'DNAME':
+        case 'NS':
+        case 'PTR':
+            // Domain name validation
+            return ['required', 'string', 'regex:/^([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$/'];
+
+        case 'MX':
+            // Mail server priority and domain name validation
+            // Example: "10 mail.example.com"
+            return ['required', 'string', 'regex:/^\\d+\\s([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$/'];
+
+        case 'TXT':
+            // Free-form text validation
+            return ['required', 'string'];
+
+        case 'LOC':
+            // Geographic location in the format: "37 23 30.0 N 121 58 21.0 W 10m"
+            return ['required', 'regex:/^(\\d{1,2}\\s\\d{1,2}\\s\\d{1,2}\\.[0-9]+\\s[N|S]\\s\\d{1,3}\\s\\d{1,2}\\s\\d{1,2}\\.[0-9]+\\s[W|E]\\s\\d+m)$/'];
+
+        case 'SRV':
+            // Service record format: "10 5 5060 sipserver.example.com"
+            return ['required', 'regex:/^\\d+\\s\\d+\\s\\d+\\s([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$/'];
+
+        case 'SSHFP':
+            // SSHFP: Algorithm, Fingerprint Type, Fingerprint
+            return ['required', 'string', 'regex:/^\\d+\\s\\d+\\s[a-fA-F0-9]{40,64}$/'];
+
+        case 'DS':
+            // DNSSEC Delegation Signer: Key Tag, Algorithm, Digest Type, Digest
+            return ['required', 'string', 'regex:/^\\d+\\s\\d+\\s\\d+\\s[a-fA-F0-9]+$/'];
+
+        case 'NAPTR':
+            // NAPTR: Order, Preference, Flags, Service, Regexp, Replacement
+            return ['required', 'string', 'regex:/^\\d+\\s\\d+\\s\\\"[a-zA-Z0-9]+\\\"\\s\\\"[a-zA-Z0-9]+\\\"\\s\\\".*\\\"\\s([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$/'];
+
+        case 'RP':
+            // Responsible Person: email address (in DNS format) and TXT record pointer
+            return ['required', 'string', 'regex:/^([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}\\s([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$/'];
+
+        case 'WKS':
+            // Well-Known Services: Protocol, IP, Service Map
+            return ['required', 'string']; // Adjust based on specific WKS usage (rarely used)
+
+        default:
+            // Default fallback for any unhandled types
+            return ['required', 'string'];
+    }
+}
 }
