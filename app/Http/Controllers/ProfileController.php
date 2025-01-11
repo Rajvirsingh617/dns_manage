@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 use App\Models\DnsUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -46,6 +47,39 @@ class ProfileController extends Controller
         return back()->withErrors(['error' => 'Failed to update the password. Please try again later.']);
     }
 }  
+public function showAuthKey()
+{
+    $user = Auth::user();
+
+    // Check if the auth key exists; if not, generate it
+    if (!$user->auth_api_key) {
+        $user->auth_api_key = $this->generateAuthKey();
+        $user->save();
+    }
+
+    // Pass the auth key to the view
+    $authKey = $user->auth_api_key;
+
+    return view('layouts.auth-key', compact('authKey'));
+}
+
+public function regenerateAuthKey()
+{
+    $user = Auth::user();
+
+    // Generate a new auth key
+    $user->auth_api_key = $this->generateAuthKey();
+    $user->save();
+
+    return redirect()->route('auth.key')->with('success', 'Auth key regenerated successfully!');
+}
+
+private function generateAuthKey()
+{
+    // Generate a secure random string (e.g., 32 characters)
+    return Str::random(32);
+}
+
 
 }
 

@@ -384,9 +384,9 @@
                     <span>Change Password</span>
                 </a>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('password.change') }}">
-                    <i class="fa-solid fa-webhook"></i>
-                    <span>AUTH API TOKEN</span>
+                <a class="nav-link" href="{{ route('auth.key') }}">
+                    <i class="fa fa-lock "></i>
+                    <span> Auth Key</span>
                 </a>
             </li>
             <li class="nav-item">

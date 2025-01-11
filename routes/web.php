@@ -27,9 +27,12 @@ Route::get('/commit-changes', function () {
 
 Route::middleware('auth')->group(function () {
     // Dashboard
+    
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Change Password
+    Route::get('/auth-key', [ProfileController::class, 'showAuthKey'])->name('auth.key');
+    Route::post('/auth-key/regenerate', [ProfileController::class, 'regenerateAuthKey'])->name('auth.key.regenerate');
     Route::get('/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('/change-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 
@@ -43,3 +46,5 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+
