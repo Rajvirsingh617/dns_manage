@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->rememberToken(); // Add the remember_token column
-            $table->string('api_auth_token')->nullable();
+            $table->string('auth_api_key')->nullable();
             $table->timestamps();
         });
     }

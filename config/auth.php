@@ -40,6 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+    'api' => [
+        'driver' => 'token',
+        'provider' => 'users',
+        'input_key' => 'api_token',
+        'hash' => false,
+    ],
     ],
 
     /*
@@ -59,10 +66,11 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => [Laravel\Passport\PassportServiceProvider::class,
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+            'key' => 'auth_api_key',
         ],
 
         // 'users' => [

@@ -126,6 +126,7 @@
                                     <input type="text" class="form-control" value="{{ old('ftp') }}" id="ftp" name="ftp" placeholder="FTP Server IP">
                                 </div>
                             </div>
+                            
 
                             <!-- Submit Button -->
                             <div class="form-group row">
