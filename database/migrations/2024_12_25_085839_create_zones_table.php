@@ -15,19 +15,20 @@ class CreateZonesTable extends Migration
     {
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
-        $table->string('name')->unique();
-        $table->integer('refresh');
-        $table->integer('retry');
-        $table->integer('expire');
-        $table->integer('ttl');
-        $table->string('pri_dns');
-        $table->string('sec_dns');
-        $table->string('www')->nullable();
-        $table->string('mail')->nullable();
-        $table->string('ftp')->nullable();
-        $table->unsignedBigInteger('owner')->nullable();
-        $table->foreign('owner')->references('id')->on('dns_users')->onDelete('cascade');
-        $table->timestamps();
+            $table->uuid('uuid')->unique()->default(DB::raw('UUID()'));
+            $table->string('name')->unique();
+            $table->integer('refresh');
+            $table->integer('retry');
+            $table->integer('expire');
+            $table->integer('ttl');
+            $table->string('pri_dns');
+            $table->string('sec_dns');
+            $table->string('www')->nullable();
+            $table->string('mail')->nullable();
+            $table->string('ftp')->nullable();
+            $table->unsignedBigInteger('owner')->nullable();
+            $table->foreign('owner')->references('id')->on('dns_users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

@@ -42,6 +42,9 @@ class ZoneController extends Controller
         'ttl' => 'required|integer',
         'pri_dns' => 'required|string',
         'sec_dns' => 'required|string',
+        'www' => 'nullable|string|max:255',
+        'mail' => 'nullable|string|max:255',
+        'ftp' => 'nullable|string|max:255',
         'user_id' => 'nullable|exists:dns_users,id',
     ]);
 
@@ -60,6 +63,10 @@ class ZoneController extends Controller
     $zone->ttl = $request->ttl;
     $zone->pri_dns = $request->pri_dns;
     $zone->sec_dns = $request->sec_dns;
+    $zone->www = $request->www; // Assigning www field
+    $zone->mail = $request->mail; // Assigning mail field
+    $zone->ftp = $request->ftp; // Assigning ftp field
+    /* $zone->owner = auth()->user()->isAdmin() && $request->user_id ? $request->user_id : Auth::id();  */// Assigning owner field
 
     if (auth()->user()->isAdmin() && $request->user_id) {
         $zone->owner = $request->user_id;
@@ -126,6 +133,9 @@ class ZoneController extends Controller
             'ttl' => 'required|integer',
             'pri_dns' => 'required|string',
             'sec_dns' => 'required|string',
+            'www' => 'nullable|string|max:255',
+            'mail' => 'nullable|string|max:255',
+            'ftp' => 'nullable|string|max:255',
             'owner' => 'required|exists:dns_users,id',
         ]);
             $zone->update($request->only(['refresh', 'retry', 'expire', 'ttl', 'pri_dns', 'sec_dns', 'owner']));
@@ -138,6 +148,9 @@ class ZoneController extends Controller
                 'ttl' => $request->ttl,
                 'pri_dns' => $request->pri_dns,
                 'sec_dns' => $request->sec_dns,
+                'www' => $request->www,
+                'mail' => $request->mail,
+                'ftp' => $request->ftp,
                 'owner' => $request->owner,
             ]);
         
@@ -313,9 +326,15 @@ class ZoneController extends Controller
         'ttl' => 'required|integer',
         'pri_dns' => 'required|string',
         'sec_dns' => 'required|string',
+        'www' => 'nullable|string|max:255',
+        'mail' => 'nullable|string|max:255',
+        'ftp' => 'nullable|string|max:255',
     ]);
 
-    $zone = Zone::create($validated);
+    $validated['owner'] = $user->id;
+
+    // Create the zone with the validated data
+    $zone = \App\Models\Zone::create($validated);
 
     return response()->json($zone, 201);
 }
@@ -323,26 +342,51 @@ class ZoneController extends Controller
 
     public function updateApi(Request $request, $id)
     {
-        $zone = Zone::find($id);
+    // Extract API key from Authorization header
+    $apiKey = $request->header('Authorization');
+    $apiKey = str_replace('Bearer ', '', $apiKey);
 
-        if (!$zone) {
-            return response()->json(['error' => 'Zone not found'], 404);
-        }
+    // Find the authenticated user by API token
+    $user = \App\Models\User::where('api_token', $apiKey)->first();
 
-        $validated = $request->validate([
-            'name' => 'sometimes|required|unique:zones,name,' . $zone->id,
-            'refresh' => 'sometimes|required|integer',
-            'retry' => 'sometimes|required|integer',
-            'expire' => 'sometimes|required|integer',
-            'ttl' => 'sometimes|required|integer',
-            'pri_dns' => 'sometimes|required|string',
-            'sec_dns' => 'sometimes|required|string',
-        ]);
-
-        $zone->update($validated);
-
-        return response()->json($zone, 200);
+    // Check if user exists and is authenticated
+    if (!$user) {
+        return response()->json(['error' => 'Unauthorized. Invalid API Key.'], 401);
     }
+
+    // Find the zone by ID
+    $zone = \App\Models\Zone::find($id);
+
+    // Check if the zone exists
+    if (!$zone) {
+        return response()->json(['error' => 'Zone not found'], 404);
+    }
+
+    // Ensure the authenticated user is the owner of the zone
+    if ($zone->owner !== $user->id) {
+        return response()->json(['error' => 'You are not authorized to update this zone'], 403);
+    }
+
+    // Validate the incoming request data
+    $validated = $request->validate([
+        'name' => 'sometimes|required|unique:zones,name,' . $zone->id,
+        'refresh' => 'sometimes|required|integer',
+        'retry' => 'sometimes|required|integer',
+        'expire' => 'sometimes|required|integer',
+        'ttl' => 'sometimes|required|integer',
+        'pri_dns' => 'sometimes|required|string',
+        'sec_dns' => 'sometimes|required|string',
+        'www' => 'nullable|string',
+        'mail' => 'nullable|string',
+        'ftp' => 'nullable|string',
+    ]);
+
+    // Update the zone with the validated data
+    $zone->update($validated);
+
+    return response()->json($zone, 200);
+    }
+
 
     public function destroyApi($id)
     {

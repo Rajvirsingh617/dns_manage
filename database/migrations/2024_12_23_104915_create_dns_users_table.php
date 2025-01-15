@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('dns_users', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->default(DB::raw('UUID()'));
             $table->string('username')->unique();
             $table->string('email')->unique()->nullable(false);
             $table->string('password');
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->rememberToken(); // Add the remember_token column
-            $table->string('auth_api_key')->nullable();
+            $table->string('auth_token')->nullable();
             $table->timestamps();
         });
     }
@@ -29,5 +30,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('dns_users');
+        $table->dropColumn('uuid');
     }
 };
