@@ -32,68 +32,68 @@ class ZoneController extends Controller
     }
 
     public function store(Request $request)
-{
+    {
     // Validate fields specific to the zone
-    $request->validate([
-        'name' => ['required', 'unique:zones,name', 'regex:/^[a-z]/'], // Ensures the zone name is unique
-        'refresh' => 'required|integer',
-        'retry' => 'required|integer',
-        'expire' => 'required|integer',
-        'ttl' => 'required|integer',
-        'pri_dns' => 'required|string',
-        'sec_dns' => 'required|string',
-        'www' => 'nullable|string|max:255',
-        'mail' => 'nullable|string|max:255',
-        'ftp' => 'nullable|string|max:255',
-        'user_id' => 'nullable|exists:dns_users,id',
+        $request->validate([
+            'name' => ['required', 'unique:zones,name', 'regex:/^[a-z]/'], // Ensures the zone name is unique
+            'refresh' => 'required|integer',
+            'retry' => 'required|integer',
+            'expire' => 'required|integer',
+            'ttl' => 'required|integer',
+            'pri_dns' => 'required|string',
+            'sec_dns' => 'required|string',
+            'www' => 'nullable|string|max:255',
+            'mail' => 'nullable|string|max:255',
+            'ftp' => 'nullable|string|max:255',
+            'user_id' => 'nullable|exists:dns_users,id',
     ]);
 
     // Check if the zone already exists
-    $existingZone = Zone::where('name', $request->name)->first();
-    if ($existingZone) {
-        return back()->with('error', 'The zone already exists in the database.');
-    }
+            $existingZone = Zone::where('name', $request->name)->first();
+            if ($existingZone) {
+                return back()->with('error', 'The zone already exists in the database.');
+            }
 
     // Create the zone
-    $zone = new Zone();
-    $zone->name = $request->name;
-    $zone->refresh = $request->refresh;
-    $zone->retry = $request->retry;
-    $zone->expire = $request->expire;
-    $zone->ttl = $request->ttl;
-    $zone->pri_dns = $request->pri_dns;
-    $zone->sec_dns = $request->sec_dns;
-    $zone->www = $request->www; // Assigning www field
-    $zone->mail = $request->mail; // Assigning mail field
-    $zone->ftp = $request->ftp; // Assigning ftp field
-    /* $zone->owner = auth()->user()->isAdmin() && $request->user_id ? $request->user_id : Auth::id();  */// Assigning owner field
+        $zone = new Zone();
+        $zone->name = $request->name;
+        $zone->refresh = $request->refresh;
+        $zone->retry = $request->retry;
+        $zone->expire = $request->expire;
+        $zone->ttl = $request->ttl;
+        $zone->pri_dns = $request->pri_dns;
+        $zone->sec_dns = $request->sec_dns;
+        $zone->www = $request->www; // Assigning www field
+        $zone->mail = $request->mail; // Assigning mail field
+        $zone->ftp = $request->ftp; // Assigning ftp field
+        /* $zone->owner = auth()->user()->isAdmin() && $request->user_id ? $request->user_id : Auth::id();  */// Assigning owner field
 
-    if (auth()->user()->isAdmin() && $request->user_id) {
-        $zone->owner = $request->user_id;
-    } else {
-        $zone->owner = Auth::id();
-    }
+        if (auth()->user()->isAdmin() && $request->user_id) {
+            $zone->owner = $request->user_id;
+        } else {
+            $zone->owner = Auth::id();
+        }
 
-    $zone->save();
+        $zone->save();
 
     // Check if record fields are provided
-    if ($request->has(['host', 'type', 'destination'])) {
-        $request->validate([
-            'host' => 'required|string|max:255|regex:/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/',
-            'type' => 'required|in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS',
-            'destination' => 'required|string|max:255',
-        ]);
+        if ($request->has(['host', 'type', 'destination'])) {
+            $request->validate([
+                'host' => 'required|string|max:255|regex:/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/',
+                'type' => 'required|in:A,AAAA,AFSDB,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS',
+                'destination' => 'required|string|max:255',
+            ]);
 
         // Add the first record for the zone
-        $zone->records()->create([
-            'host' => $request->host,
-            'type' => $request->type,
-            'destination' => $request->destination,
-        ]);
+            $zone->records()->create([
+                'host' => $request->host,
+                'type' => $request->type,
+                'destination' => $request->destination,
+            ]);
     }
 
-    return redirect()->route('zones.index')->with('success', 'Zone and record added successfully!');
-}
+        return redirect()->route('zones.index')->with('success', 'Zone and record added successfully!');
+    }
 
 
     
@@ -177,7 +177,7 @@ class ZoneController extends Controller
                     'destination' => $destination,
                 ], [
                     'host' => ['required', 'string', 'regex:/^([a-zA-Z0-9-]+\\.)*[a-zA-Z0-9-]+$/'],
-                    'type' => ['required', 'in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS'],
+                    'type' => ['required', 'in:A,AAAA,CNAME,AFSDB,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS'],
                     'destination' => $this->getDestinationValidationRule($type),
                 ]);
 
@@ -210,7 +210,7 @@ class ZoneController extends Controller
                 'destination' => $request->newdestination,
             ], [
                 'host' => ['required', 'string', 'regex:/^([a-zA-Z0-9-]+\\.)*[a-zA-Z0-9-]+$/'],
-                'type' => ['required', 'in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS'],
+                'type' => ['required', 'in:A,AAAA,CNAME,DNAME,AFSDB,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS'],
                 'destination' => $this->getDestinationValidationRule($request->newtype),
             ]);
 
@@ -401,5 +401,138 @@ class ZoneController extends Controller
         return response()->json(['message' => 'Zone deleted successfully'], 200);
     }
 
+    public function storeRecordApi(Request $request, $uuid)
+{
+    $apiKey = $request->header('Authorization');
+    $apiKey = str_replace('Bearer ', '', $apiKey);
+
+    $user = Auth::user(); // Fetch authenticated user
+
+    if (!$user || $user->api_token !== $apiKey) {
+        return response()->json(['error' => 'Unauthorized. Invalid API Key.'], 401);
+    }
+
+    // Validate the request data
+    $validated = $request->validate([
+        'host' => [
+            'required',
+            'string',
+            'max:255',
+            'regex:/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])$/'
+        ],
+        'type' => 'required|in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS',
+        'destination' => $this->getDestinationValidationRule($request->newtype),
+    ]);
+
+    // Find the zone by UUID
+    $zone = \App\Models\Zone::where('uuid', $uuid)->first();
+
+    if (!$zone) {
+        return response()->json(['error' => 'Zone not found'], 404);
+    }
+
+    // Ensure the user has access to the zone
+    if ($zone->owner !== $user->id) {
+        return response()->json(['error' => 'Unauthorized to add records for this zone'], 403);
+    }
+
+    // Add the record to the zone
+    $record = $zone->records()->create($validated);
+
+    return response()->json(['message' => 'Record added successfully', 'record' => $record], 201);
+}
+    
+    public function indexRecordsApi($uuid)
+{
+    $zone = Zone::where('uuid', $uuid)->first();
+
+    if (!$zone) {
+        return response()->json(['error' => 'Zone not found'], 404);
+    }
+
+    $records = $zone->records;
+
+    return response()->json(['zone' => $zone, 'records' => $records], 200);
+}
+    
+public function updateRecordApi(Request $request, $uuid, $recordId)
+{
+    $apiKey = $request->header('Authorization');
+    $apiKey = str_replace('Bearer ', '', $apiKey);
+
+    $user = Auth::user();
+
+    if (!$user || $user->api_token !== $apiKey) {
+        return response()->json(['error' => 'Unauthorized. Invalid API Key.'], 401);
+    }
+
+    // Find the zone by UUID
+    $zone = Zone::where('uuid', $uuid)->first();
+
+    if (!$zone) {
+        return response()->json(['error' => 'Zone not found.'], 404);
+    }
+
+    if ($zone->owner !== $user->id) {
+        return response()->json(['error' => 'Unauthorized to update records for this zone.'], 403);
+    }
+
+    // Debug: Check if record query works
+    $record = $zone->records()->where('id', $recordId)->first();
+    if (!$record) {
+        return response()->json([
+            'error' => 'Record not found.',
+            'zone_id' => $zone->id,
+            'record_id' => $recordId,
+            'all_records' => $zone->records
+        ], 404);
+    }
+
+    // Validate the request payload
+    $validated = $request->validate([
+        'host' => 'nullable|string|max:255',
+        'type' => 'nullable|in:A,AAAA,CNAME,DNAME,DS,LOC,MX,NAPTR,NS,PTR,RP,SRV,SSHFP,TXT,WKS',
+        'destination' => 'nullable|string|max:255',
+        'valid' => 'nullable|boolean',
+    ]);
+
+    $record->update($validated);
+
+    return response()->json(['message' => 'Record updated successfully.', 'record' => $record], 200);
+}
+
+
+    // Delete a specific record
+    public function deleteRecordApi(Request $request, $uuid, $recordId)
+    {
+        $apiKey = $request->header('Authorization');
+        $apiKey = str_replace('Bearer ', '', $apiKey);
+
+        $user = Auth::user();
+
+        if (!$user || $user->api_token !== $apiKey) {
+            return response()->json(['error' => 'Unauthorized. Invalid API Key.'], 401);
+        }
+
+        $zone = Zone::where('uuid', $uuid)->first();
+
+        if (!$zone) {
+            return response()->json(['error' => 'Zone not found'], 404);
+        }
+
+        if ($zone->owner !== $user->id) {
+            return response()->json(['error' => 'Unauthorized to delete records for this zone'], 403);
+        }
+
+        $record = $zone->records()->where('id', $recordId)->first();
+
+        if (!$record) {
+            return response()->json(['error' => 'Record not found'], 404);
+        }
+
+        $record->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
     
 }

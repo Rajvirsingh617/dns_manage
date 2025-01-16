@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/zones/{id}/update-records', [ZoneController::class, 'updateRecords'])->name('zones.updateRecords');
     Route::put('/zones/{id}', [ZoneController::class, 'update'])->name('zones.update'); 
     Route::get('/zones/test', function () {
-        dd('Route is working');
+        
     });
     
     

@@ -252,7 +252,9 @@
                                             <td>
                                                 <select name="newtype" class="form-control">
                                                     <option value="A">A</option>
+                                                    <option value="A">A6</option>
                                                     <option value="AAAA">AAAA</option>
+                                                    <option value="AAAA">AFSDB</option>
                                                     <option value="CNAME">CNAME</option>
                                                     <option value="DNAME">DNAME</option>
                                                     <option value="DS">DS</option>
@@ -266,7 +268,6 @@
                                                     <option value="SSHFP">SSHFP</option>
                                                     <option value="TXT">TXT</option>
                                                     <option value="WKS">WKS</option>
-                                                    <option value=""></option>
                                                 </select>
                                             </td>
                                             <td>

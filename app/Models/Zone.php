@@ -23,11 +23,8 @@ class Zone extends Model
         'ftp',
         'owner',
     ];
-    // Zone.php
-/* public function owner()
-{
-    return $this->belongsTo(User::class, 'owner');
-} */
+  
+    
 public function user()
 {
     return $this->belongsTo(User::class, 'owner');

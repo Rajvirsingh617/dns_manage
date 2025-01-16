@@ -14,6 +14,11 @@ class ZoneRecord extends Model
 
     public function zone()
     {
-        return $this->belongsTo(Zone::class);
+        return $this->belongsTo(Zone::class, 'zone_id');
     }
+
+    public function records()
+{
+    return $this->hasMany(Record::class);
+}
 }
