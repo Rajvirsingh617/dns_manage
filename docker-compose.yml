@@ -1,0 +1,40 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dns-app
+    ports:
+      - "8001:80"
+    networks:
+      - dns-network
+    depends_on:
+      - db
+    volumes:
+      - ./laravel:/var/www/html
+      - ./coredns:/etc/coredns
+      
+
+  db:
+    image: mysql:8
+    container_name: dns-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dns_management
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - dns-network
+    ports:
+      - "3307:3306"
+
+networks:
+  dns-network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local

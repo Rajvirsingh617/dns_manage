@@ -307,37 +307,7 @@ class ZoneController extends Controller
         return response()->json($zone, 200);
     }
 
-    public function storeApi(Request $request)
-    {
-    $apiKey = $request->header('Authorization');
-    $apiKey = str_replace('Bearer ', '', $apiKey);
 
-    $user = Auth::user(); // Fetch authenticated user
-
-    if (!$user || $user->api_token !== $apiKey) {
-        return response()->json(['error' => 'Unauthorized. Invalid API Key.'], 401);
-    }
-
-    $validated = $request->validate([
-        'name' => 'required|unique:zones,name',
-        'refresh' => 'required|integer',
-        'retry' => 'required|integer',
-        'expire' => 'required|integer',
-        'ttl' => 'required|integer',
-        'pri_dns' => 'required|string',
-        'sec_dns' => 'required|string',
-        'www' => 'nullable|string|max:255',
-        'mail' => 'nullable|string|max:255',
-        'ftp' => 'nullable|string|max:255',
-    ]);
-
-    $validated['owner'] = $user->id;
-
-    // Create the zone with the validated data
-    $zone = \App\Models\Zone::create($validated);
-
-    return response()->json($zone, 201);
-}
 
 
     public function updateApi(Request $request, $id)
@@ -534,5 +504,6 @@ public function updateRecordApi(Request $request, $uuid, $recordId)
 
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
-    
+
+  
 }
