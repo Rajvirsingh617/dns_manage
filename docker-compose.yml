@@ -1,3 +1,4 @@
+version: '3.7'
 
 services:
   app:
@@ -14,7 +15,6 @@ services:
     volumes:
       - ./laravel:/var/www/html
       - ./coredns:/etc/coredns
-      
 
   db:
     image: mysql:8
@@ -30,6 +30,20 @@ services:
       - dns-network
     ports:
       - "3307:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: dns-pma
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: rootpassword  # The root password for MySQL
+    networks:
+      - dns-network
+    ports:
+      - "8080:80"  # Access phpMyAdmin on port 8080
+    depends_on:
+      - db
 
 networks:
   dns-network:

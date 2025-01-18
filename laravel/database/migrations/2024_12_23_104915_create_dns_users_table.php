@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('dns_users', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->default(DB::raw('UUID()'));
+            $table->uuid('uuid');
             $table->string('username')->unique();
             $table->string('email')->unique()->nullable(false);
             $table->string('password');

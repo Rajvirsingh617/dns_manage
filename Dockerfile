@@ -48,8 +48,14 @@ COPY ./laravel/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Copy CoreDNS configuration
 COPY ./coredns/Corefile /etc/coredns/Corefile
 
+# Copy entrypoint script
+COPY ./entrypoint.sh /entrypoint.sh
+
+# Make sure the entrypoint script is executable
+RUN chmod +x /entrypoint.sh
+
 # Expose ports
 EXPOSE 80 53/udp
 
-# Start Supervisor to manage Apache and CoreDNS
-CMD ["supervisord", "-n"]
+# Set the entrypoint to run the script
+ENTRYPOINT ["/entrypoint.sh"]
